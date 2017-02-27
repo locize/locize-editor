@@ -32,6 +32,21 @@ const editor = {
     this.subscriber.forEach(fc => {
       fc(this.i18next.options.backend.projectId, this.i18next.languages[0], getElementNamespace(res, el, this.i18next), res);
     });
+
+
+    // alternative consume
+    // window.addEventListener("message", function(ev) {
+    //   if (ev.data.message === "deliverResult") {
+    //     alert("result: " + ev.data.result);
+    //     ev.source.close();
+    //   }
+    // });
+    this.locizeInstance.postMessage({
+      projectId: this.i18next.options.backend.projectId,
+      lng: this.i18next.languages[0],
+      ns: getElementNamespace(res, el, this.i18next),
+      token: res
+    });
   },
 
   on() {
