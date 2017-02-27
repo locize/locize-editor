@@ -1,6 +1,6 @@
 {
   "name": "locize-editor",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "editor plugin",
   "main": "dist/commonjs/index.js",
   "jsnext:main": "dist/es/index.js",
@@ -19,8 +19,7 @@
     "type": "git",
     "url": "git://github.com/locize/locize-editor.git"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "aws-sdk": "2.16.0",
     "babel-cli": "6.23.0",
