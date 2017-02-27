@@ -35,6 +35,8 @@ export function getClickedElement(e) {
     el = e.originalEvent.explicitOriginalTarget;
   } else {
     let parent = e.srcElement;
+    if (parent.getAttribute && parent.getAttribute('ignorelocizeeditor') === '') return null;
+
     let left = e.pageX;
     let top = e.pageY;
     let pOffset = offset(parent);

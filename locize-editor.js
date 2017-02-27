@@ -1,7 +1,7 @@
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
-	(global['locize-editor'] = factory());
+	(global.locizeEditor = factory());
 }(this, (function () { 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -47,6 +47,8 @@ function getClickedElement(e) {
     el = e.originalEvent.explicitOriginalTarget;
   } else {
     var parent = e.srcElement;
+    if (parent.getAttribute && parent.getAttribute('ignorelocizeeditor') === '') return null;
+
     var left = e.pageX;
     var top = e.pageY;
     var pOffset = offset(parent);
@@ -119,22 +121,61 @@ function getElementNamespace(str, el, i18next) {
   return namespace;
 }
 
+var baseBtn = 'font-family: "Helvetica", "Arial", sans-serif; font-size: 14px; color: #fff; border: none; font-weight: 300; height: 30px; line-height: 30px; padding: 0; text-align: center; min-width: 90px; text-decoration: none; text-transform: uppercase; text-overflow: ellipsis; white-space: nowrap; outline: none; cursor: pointer;';
+
+function initUI(on, off) {
+  var cont = document.createElement("div");
+  cont.setAttribute('style', 'font-family: "Helvetica", "Arial", sans-serif; position: absolute; bottom: 20px; right: 20px; padding: 10px; background-color: #fff; border: solid 1px #1976d2; box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);');
+  cont.setAttribute('ignorelocizeeditor', '');
+  cont.setAttribute('translated', '');
+
+  var title = document.createElement("h4");
+  title.id = "locize-title";
+  title.innerHTML = "locize editor";
+  title.setAttribute('style', 'font-family: "Helvetica", "Arial", sans-serif; font-size: 14px; margin: 0 0 5px 0; color: #1976d2; font-weight: 300;');
+  title.setAttribute('ignorelocizeeditor', '');
+  cont.appendChild(title);
+
+  var turnOff = document.createElement("button");
+  turnOff.innerHTML = "On";
+  turnOff.setAttribute('style', baseBtn + ' display: none; background-color: #54A229;');
+  turnOff.onclick = off;
+  turnOff.setAttribute('ignorelocizeeditor', '');
+  cont.appendChild(turnOff);
+
+  var turnOn = document.createElement("button");
+  turnOn.innerHTML = "Off";
+  turnOn.setAttribute('style', baseBtn + ' display: none; background-color: #D50000;');
+  turnOn.onclick = on;
+  turnOn.setAttribute('ignorelocizeeditor', '');
+  cont.appendChild(turnOn);
+
+  document.body.appendChild(cont);
+
+  var toggle = function toggle(on) {
+    turnOff.style.display = on ? 'block' : 'none';
+    turnOn.style.display = !on ? 'block' : 'none';
+  };
+
+  return toggle;
+}
+
 var editor = {
   init: function init(i18next) {
     var _this = this;
 
-    this.subscriber = [];
     this.i18next = i18next;
-    setTimeout(function () {
-      _this.on();
-    }, 100);
+    this.locizeUrl = i18next.options.editor && i18next.options.editor.url || 'https://www.locize.io';
 
-    this.locizeInstance = window.open('/receiver');
+    this.handler = this.handler.bind(this);
 
-    window.subscribeLocizeEditor = this.subscribe.bind(this);
-  },
-  subscribe: function subscribe(fc) {
-    this.subscriber.push(fc);
+    if (i18next.options.editor && i18next.options.editor.enabled) {
+      setTimeout(function () {
+        _this.toggleUI = initUI(_this.on.bind(_this), _this.off.bind(_this));
+        _this.open();
+        _this.on();
+      }, 100);
+    }
   },
   handler: function handler(e) {
     var _this2 = this;
@@ -143,22 +184,46 @@ var editor = {
     if (!el) return;
 
     var str = el.textContent || el.text.innerText;
-    var res = str.replace(/\n +/g, '');
+    var res = str.replace(/\n +/g, '').trim();
 
-    console.warn(el, res);
-    console.warn(getElementNamespace(res, el, this.i18next));
-    console.warn('projectId', this.i18next.options.backend.projectId);
-    console.warn('language', this.i18next.languages[0]);
+    var send = function send() {
+      // alternative consume
+      // window.addEventListener('message', function(ev) {
+      //   if (ev.data.message === 'searchForKey') {
+      //     console.warn(ev.data);
+      //   }
+      // });
+      _this2.locizeInstance.postMessage({
+        message: 'searchForKey',
+        projectId: _this2.i18next.options.backend.projectId,
+        version: _this2.i18next.options.backend.version || 'latest',
+        lng: _this2.i18next.languages[0],
+        ns: getElementNamespace(res, el, _this2.i18next),
+        token: res
+      }, _this2.locizeUrl);
+      _this2.locizeInstance.focus();
+    };
 
-    this.subscriber.forEach(function (fc) {
-      fc(_this2.i18next.options.backend.projectId, _this2.i18next.languages[0], getElementNamespace(res, el, _this2.i18next), res);
-    });
+    // assert the locizeInstance is still open
+    if (this.locizeInstance.closed) {
+      this.open();
+      setTimeout(function () {
+        send();
+      }, 3000);
+    } else {
+      send();
+    }
+  },
+  open: function open() {
+    this.locizeInstance = window.open(this.locizeUrl);
   },
   on: function on() {
-    document.body.addEventListener("click", this.handler.bind(this));
+    document.body.addEventListener("click", this.handler);
+    this.toggleUI(true);
   },
   off: function off() {
-    document.body.removeEventListener("click", this.handler.bind(this));
+    document.body.removeEventListener("click", this.handler);
+    this.toggleUI(false);
   }
 };
 

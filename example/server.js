@@ -19,7 +19,13 @@ app.get('/receiver', function(req, res) {
 });
 
 app.get('/locizify.js', function(req, res) {
-  fs.readFile(__dirname + '/../locizify.js', 'utf-8', function(err, doc) {
+  fs.readFile(__dirname + '/../../locizify/locizify.js', 'utf-8', function(err, doc) {
+    res.send(doc);
+  });
+});
+
+app.get('/locize-editor.js', function(req, res) {
+  fs.readFile(__dirname + '/../locize-editor.js', 'utf-8', function(err, doc) {
     res.send(doc);
   });
 });

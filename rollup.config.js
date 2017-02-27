@@ -27,7 +27,7 @@ export default {
     nodeResolve({ jsnext: true, main: true }),
     commonjs()
   ].concat(compress ? uglify() : []),
-  moduleName: 'locize-editor',
+  moduleName: 'locizeEditor',
   //moduleId: 'locizify',
   dest
 };

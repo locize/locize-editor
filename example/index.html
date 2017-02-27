@@ -3,7 +3,9 @@
 <html>
   <head>
     <script src="/locizify.js"></script>
+    <script src="/locize-editor.js"></script>
     <script>
+      window.locizify.i18next.use(window.locizeEditor);
       var translation = window.locizify.init({
         debug: true,
         saveMissing: true,
@@ -20,6 +22,10 @@
           // version: 'staging',
           loadPath: 'https://api-dev.locize.io/{{projectId}}/latest/{{lng}}/{{ns}}',
           addPath: 'https://api-dev.locize.io/missing/{{projectId}}/latest/{{lng}}/{{ns}}'
+        },
+        editor: {
+          enabled: true,
+          url: 'https://dev.locize.io'
         }
       });
       // setTimeout(function () {
