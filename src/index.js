@@ -1,19 +1,27 @@
-import { getClickedElement, getElementNamespace } from './utils';
+import { getClickedElement, getElementNamespace, getQueryVariable } from './utils';
 import { initUI } from './ui';
+
+const defaultOptions = {
+  url: 'https://www.locize.io',
+  enabled: false,
+  enableByQS: 'locize',
+  autoOpen: true
+}
 
 const editor = {
   init(i18next) {
     this.i18next = i18next;
+    this.options = { ...defaultOptions, ...i18next.options.editor };
     this.locizeUrl = (i18next.options.editor && i18next.options.editor.url) || 'https://www.locize.io';
 
     this.handler = this.handler.bind(this);
 
-    if (i18next.options.editor && i18next.options.editor.enabled) {
+    if (this.options.enabled || (this.options.enableByQS && getQueryVariable(this.options.enableByQS))) {
       setTimeout(() => {
         this.toggleUI = initUI(this.on.bind(this), this.off.bind(this));
         this.open();
         this.on();
-      }, 100);
+      }, 500);
     }
   },
 
@@ -33,19 +41,22 @@ const editor = {
       //     console.warn(ev.data);
       //   }
       // });
-      this.locizeInstance.postMessage({
+      const payload = {
         message: 'searchForKey',
         projectId: this.i18next.options.backend.projectId,
         version: this.i18next.options.backend.version || 'latest',
         lng: this.i18next.languages[0],
         ns: getElementNamespace(res, el, this.i18next),
         token: res
-      }, this.locizeUrl);
+      };
+      if (this.options.handler) return this.options.handler(payload);
+
+      this.locizeInstance.postMessage(payload, this.options.url);
       this.locizeInstance.focus();
     }
 
     // assert the locizeInstance is still open
-    if (this.locizeInstance.closed) {
+    if (this.options.autoOpen && (!this.locizeInstance || this.locizeInstance.closed)) {
       this.open();
       setTimeout(() => {
         send();
@@ -57,7 +68,7 @@ const editor = {
   },
 
   open() {
-    this.locizeInstance = window.open(this.locizeUrl);
+    this.locizeInstance = window.open(this.options.url);
   },
 
   on() {

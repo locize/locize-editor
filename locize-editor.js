@@ -121,6 +121,18 @@ function getElementNamespace(str, el, i18next) {
   return namespace;
 }
 
+function getQueryVariable(variable) {
+  var query = window.location.search.substring(1);
+  var vars = query.split('&');
+  for (var i = 0; i < vars.length; i++) {
+    var pair = vars[i].split('=');
+    if (pair[0] == variable) {
+      return pair[1];
+    }
+  }
+  return false;
+}
+
 var baseBtn = 'font-family: "Helvetica", "Arial", sans-serif; font-size: 14px; color: #fff; border: none; font-weight: 300; height: 30px; line-height: 30px; padding: 0; text-align: center; min-width: 90px; text-decoration: none; text-transform: uppercase; text-overflow: ellipsis; white-space: nowrap; outline: none; cursor: pointer;';
 
 function initUI(on, off) {
@@ -160,21 +172,31 @@ function initUI(on, off) {
   return toggle;
 }
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var defaultOptions = {
+  url: 'https://www.locize.io',
+  enabled: false,
+  enableByQS: 'locize',
+  autoOpen: true
+};
+
 var editor = {
   init: function init(i18next) {
     var _this = this;
 
     this.i18next = i18next;
+    this.options = _extends({}, defaultOptions, i18next.options.editor);
     this.locizeUrl = i18next.options.editor && i18next.options.editor.url || 'https://www.locize.io';
 
     this.handler = this.handler.bind(this);
 
-    if (i18next.options.editor && i18next.options.editor.enabled) {
+    if (this.options.enabled || this.options.enableByQS && getQueryVariable(this.options.enableByQS)) {
       setTimeout(function () {
         _this.toggleUI = initUI(_this.on.bind(_this), _this.off.bind(_this));
         _this.open();
         _this.on();
-      }, 100);
+      }, 500);
     }
   },
   handler: function handler(e) {
@@ -193,19 +215,22 @@ var editor = {
       //     console.warn(ev.data);
       //   }
       // });
-      _this2.locizeInstance.postMessage({
+      var payload = {
         message: 'searchForKey',
         projectId: _this2.i18next.options.backend.projectId,
         version: _this2.i18next.options.backend.version || 'latest',
         lng: _this2.i18next.languages[0],
         ns: getElementNamespace(res, el, _this2.i18next),
         token: res
-      }, _this2.locizeUrl);
+      };
+      if (_this2.options.handler) return _this2.options.handler(payload);
+
+      _this2.locizeInstance.postMessage(payload, _this2.options.url);
       _this2.locizeInstance.focus();
     };
 
     // assert the locizeInstance is still open
-    if (this.locizeInstance.closed) {
+    if (this.options.autoOpen && (!this.locizeInstance || this.locizeInstance.closed)) {
       this.open();
       setTimeout(function () {
         send();
@@ -215,7 +240,7 @@ var editor = {
     }
   },
   open: function open() {
-    this.locizeInstance = window.open(this.locizeUrl);
+    this.locizeInstance = window.open(this.options.url);
   },
   on: function on() {
     document.body.addEventListener("click", this.handler);
