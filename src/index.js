@@ -9,6 +9,8 @@ const defaultOptions = {
 }
 
 const editor = {
+  type: '3rdParty',
+  
   init(i18next) {
     this.i18next = i18next;
     this.options = { ...defaultOptions, ...i18next.options.editor };

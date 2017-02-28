@@ -137,7 +137,7 @@ var baseBtn = 'font-family: "Helvetica", "Arial", sans-serif; font-size: 14px; c
 
 function initUI(on, off) {
   var cont = document.createElement("div");
-  cont.setAttribute('style', 'font-family: "Helvetica", "Arial", sans-serif; position: absolute; bottom: 20px; right: 20px; padding: 10px; background-color: #fff; border: solid 1px #1976d2; box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);');
+  cont.setAttribute('style', 'font-family: "Helvetica", "Arial", sans-serif; position: fixed; bottom: 20px; right: 20px; padding: 10px; background-color: #fff; border: solid 1px #1976d2; box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);');
   cont.setAttribute('ignorelocizeeditor', '');
   cont.setAttribute('translated', '');
 
@@ -182,6 +182,8 @@ var defaultOptions = {
 };
 
 var editor = {
+  type: '3rdParty',
+
   init: function init(i18next) {
     var _this = this;
 
