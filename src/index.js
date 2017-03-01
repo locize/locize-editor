@@ -51,6 +51,7 @@ const editor = {
         ns: getElementNamespace(res, el, this.i18next),
         token: removeNamespace(res, this.i18next)
       };
+      if (!payload.lng || payload.lng.toLowerCase() === 'cimode') payload.lng = this.i18next.options.backend.referenceLng;
       if (this.options.handler) return this.options.handler(payload);
 
       this.locizeInstance.postMessage(payload, this.options.url);

@@ -236,6 +236,7 @@ var editor = {
         ns: getElementNamespace(res, el, _this2.i18next),
         token: removeNamespace(res, _this2.i18next)
       };
+      if (!payload.lng || payload.lng.toLowerCase() === 'cimode') payload.lng = _this2.i18next.options.backend.referenceLng;
       if (_this2.options.handler) return _this2.options.handler(payload);
 
       _this2.locizeInstance.postMessage(payload, _this2.options.url);

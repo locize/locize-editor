@@ -1,3 +1,6 @@
+### v0.10.1
+- replace cimode lng to referenceLng
+
 ### v0.10.0
 - fixes autoOpen false
 - removes html comments from detectable (enables usage eg. for react apps)
