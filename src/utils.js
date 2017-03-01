@@ -68,14 +68,25 @@ export function getClickedElement(e) {
       let nOffset = offset(n);
 
       if (!toLeft && nOffset.left > left) {
-        el = parent.childNodes[y - 1];
         break;
       }
 
-      el = n;
+      if (n.nodeType !== 8) el = n;
     }
   }
   return el;
+}
+
+export function removeNamespace(str, i18next) {
+  let res = str;
+  const nsSeparator = i18next.options.nsSeparator;
+
+  if (str.indexOf(nsSeparator) > -1) {
+    const p = str.split(nsSeparator);
+		p.shift();
+		res = p.join(nsSeparator);
+  }
+	return res;
 }
 
 export function getElementNamespace(str, el, i18next) {

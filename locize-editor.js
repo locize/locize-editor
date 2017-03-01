@@ -80,14 +80,25 @@ function getClickedElement(e) {
       var _nOffset = offset(_n);
 
       if (!toLeft && _nOffset.left > left) {
-        el = parent.childNodes[y - 1];
         break;
       }
 
-      el = _n;
+      if (_n.nodeType !== 8) el = _n;
     }
   }
   return el;
+}
+
+function removeNamespace(str, i18next) {
+  var res = str;
+  var nsSeparator = i18next.options.nsSeparator;
+
+  if (str.indexOf(nsSeparator) > -1) {
+    var p = str.split(nsSeparator);
+    p.shift();
+    res = p.join(nsSeparator);
+  }
+  return res;
 }
 
 function getElementNamespace(str, el, i18next) {
@@ -137,7 +148,7 @@ var baseBtn = 'font-family: "Helvetica", "Arial", sans-serif; font-size: 14px; c
 
 function initUI(on, off) {
   var cont = document.createElement("div");
-  cont.setAttribute('style', 'font-family: "Helvetica", "Arial", sans-serif; position: fixed; bottom: 20px; right: 20px; padding: 10px; background-color: #fff; border: solid 1px #1976d2; box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);');
+  cont.setAttribute('style', 'z-index: 1000, font-family: "Helvetica", "Arial", sans-serif; position: fixed; bottom: 20px; right: 20px; padding: 10px; background-color: #fff; border: solid 1px #1976d2; box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);');
   cont.setAttribute('ignorelocizeeditor', '');
   cont.setAttribute('translated', '');
 
@@ -196,7 +207,7 @@ var editor = {
     if (this.options.enabled || this.options.enableByQS && getQueryVariable(this.options.enableByQS)) {
       setTimeout(function () {
         _this.toggleUI = initUI(_this.on.bind(_this), _this.off.bind(_this));
-        _this.open();
+        if (_this.options.autoOpen) _this.open();
         _this.on();
       }, 500);
     }
@@ -223,7 +234,7 @@ var editor = {
         version: _this2.i18next.options.backend.version || 'latest',
         lng: _this2.i18next.languages[0],
         ns: getElementNamespace(res, el, _this2.i18next),
-        token: res
+        token: removeNamespace(res, _this2.i18next)
       };
       if (_this2.options.handler) return _this2.options.handler(payload);
 

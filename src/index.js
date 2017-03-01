@@ -1,4 +1,4 @@
-import { getClickedElement, getElementNamespace, getQueryVariable } from './utils';
+import { getClickedElement, getElementNamespace, getQueryVariable, removeNamespace } from './utils';
 import { initUI } from './ui';
 
 const defaultOptions = {
@@ -10,7 +10,7 @@ const defaultOptions = {
 
 const editor = {
   type: '3rdParty',
-  
+
   init(i18next) {
     this.i18next = i18next;
     this.options = { ...defaultOptions, ...i18next.options.editor };
@@ -21,7 +21,7 @@ const editor = {
     if (this.options.enabled || (this.options.enableByQS && getQueryVariable(this.options.enableByQS))) {
       setTimeout(() => {
         this.toggleUI = initUI(this.on.bind(this), this.off.bind(this));
-        this.open();
+        if (this.options.autoOpen) this.open();
         this.on();
       }, 500);
     }
@@ -49,7 +49,7 @@ const editor = {
         version: this.i18next.options.backend.version || 'latest',
         lng: this.i18next.languages[0],
         ns: getElementNamespace(res, el, this.i18next),
-        token: res
+        token: removeNamespace(res, this.i18next)
       };
       if (this.options.handler) return this.options.handler(payload);
 

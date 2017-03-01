@@ -2,7 +2,7 @@ const baseBtn = 'font-family: "Helvetica", "Arial", sans-serif; font-size: 14px;
 
 export function initUI(on, off) {
   const cont =  document.createElement("div")
-  cont.setAttribute('style', 'font-family: "Helvetica", "Arial", sans-serif; position: fixed; bottom: 20px; right: 20px; padding: 10px; background-color: #fff; border: solid 1px #1976d2; box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);');
+  cont.setAttribute('style', 'z-index: 1000, font-family: "Helvetica", "Arial", sans-serif; position: fixed; bottom: 20px; right: 20px; padding: 10px; background-color: #fff; border: solid 1px #1976d2; box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);');
   cont.setAttribute('ignorelocizeeditor', '');
   cont.setAttribute('translated', '');
 
