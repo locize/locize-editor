@@ -1,3 +1,6 @@
+### v0.11.0
+- adds new default mode 'iframe', mode could be toggled by ?locizeMode=tab or setting mode on editor options
+
 ### v0.10.1
 - replace cimode lng to referenceLng
 

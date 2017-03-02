@@ -1,11 +1,15 @@
 import { getClickedElement, getElementNamespace, getQueryVariable, removeNamespace } from './utils';
-import { initUI } from './ui';
+import { initUI, appendIframe } from './ui';
 
 const defaultOptions = {
   url: 'https://www.locize.io',
   enabled: false,
   enableByQS: 'locize',
-  autoOpen: true
+  autoOpen: true,
+  mode: getQueryVariable('locizeMode') || 'iframe',
+  iframeContainerStyle: 'z-index: 1000; position: fixed; top: 0; right: 0; bottom: 0; width: 500px; box-shadow: -3px 0 5px 0 rgba(0,0,0,0.5);',
+  iframeStyle: 'height: 100%; width: 500px; border: none;',
+  bodyStyle: 'margin-right: 505px;'
 }
 
 const editor = {
@@ -20,7 +24,7 @@ const editor = {
 
     if (this.options.enabled || (this.options.enableByQS && getQueryVariable(this.options.enableByQS))) {
       setTimeout(() => {
-        this.toggleUI = initUI(this.on.bind(this), this.off.bind(this));
+        this.toggleUI = initUI(this.on.bind(this), this.off.bind(this), this.options);
         if (this.options.autoOpen) this.open();
         this.on();
       }, 500);
@@ -37,7 +41,7 @@ const editor = {
 
 
     const send = () => {
-      // alternative consume
+      // consume
       // window.addEventListener('message', function(ev) {
       //   if (ev.data.message === 'searchForKey') {
       //     console.warn(ev.data);
@@ -59,7 +63,7 @@ const editor = {
     }
 
     // assert the locizeInstance is still open
-    if (this.options.autoOpen && (!this.locizeInstance || this.locizeInstance.closed)) {
+    if (this.options.autoOpen && (this.options.mode !== 'iframe' && !this.locizeInstance || this.locizeInstance.closed)) {
       this.open();
       setTimeout(() => {
         send();
@@ -71,6 +75,7 @@ const editor = {
   },
 
   open() {
+    if (this.options.mode === "iframe") return this.locizeInstance = appendIframe(this.options.url, this.options);
     this.locizeInstance = window.open(this.options.url);
   },
 

@@ -146,9 +146,9 @@ function getQueryVariable(variable) {
 
 var baseBtn = 'font-family: "Helvetica", "Arial", sans-serif; font-size: 14px; color: #fff; border: none; font-weight: 300; height: 30px; line-height: 30px; padding: 0; text-align: center; min-width: 90px; text-decoration: none; text-transform: uppercase; text-overflow: ellipsis; white-space: nowrap; outline: none; cursor: pointer;';
 
-function initUI(on, off) {
+function initUI(on, off, options) {
   var cont = document.createElement("div");
-  cont.setAttribute('style', 'z-index: 1000, font-family: "Helvetica", "Arial", sans-serif; position: fixed; bottom: 20px; right: 20px; padding: 10px; background-color: #fff; border: solid 1px #1976d2; box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);');
+  cont.setAttribute('style', 'z-index: 1001; font-family: "Helvetica", "Arial", sans-serif; position: fixed; bottom: 20px; right: 20px; padding: 10px; background-color: #fff; border: solid 1px #1976d2; box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);');
   cont.setAttribute('ignorelocizeeditor', '');
   cont.setAttribute('translated', '');
 
@@ -183,13 +183,36 @@ function initUI(on, off) {
   return toggle;
 }
 
+function appendIframe(url, options) {
+  var cont = document.createElement("div");
+  cont.setAttribute('style', options.iframeContainerStyle);
+  cont.setAttribute('ignorelocizeeditor', '');
+  cont.setAttribute('translated', '');
+
+  var iframe = document.createElement("iframe");
+  iframe.setAttribute('style', options.iframeStyle);
+  iframe.setAttribute('ignorelocizeeditor', '');
+  iframe.setAttribute('translated', '');
+  iframe.setAttribute('src', url);
+  cont.appendChild(iframe);
+
+  document.body.appendChild(cont);
+  var bodyStyle = document.body.getAttribute('style');
+  document.body.setAttribute('style', bodyStyle + '; ' + options.bodyStyle);
+  return iframe.contentWindow;
+}
+
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var defaultOptions = {
   url: 'https://www.locize.io',
   enabled: false,
   enableByQS: 'locize',
-  autoOpen: true
+  autoOpen: true,
+  mode: getQueryVariable('locizeMode') || 'iframe',
+  iframeContainerStyle: 'z-index: 1000; position: fixed; top: 0; right: 0; bottom: 0; width: 500px; box-shadow: -3px 0 5px 0 rgba(0,0,0,0.5);',
+  iframeStyle: 'height: 100%; width: 500px; border: none;',
+  bodyStyle: 'margin-right: 505px;'
 };
 
 var editor = {
@@ -206,7 +229,7 @@ var editor = {
 
     if (this.options.enabled || this.options.enableByQS && getQueryVariable(this.options.enableByQS)) {
       setTimeout(function () {
-        _this.toggleUI = initUI(_this.on.bind(_this), _this.off.bind(_this));
+        _this.toggleUI = initUI(_this.on.bind(_this), _this.off.bind(_this), _this.options);
         if (_this.options.autoOpen) _this.open();
         _this.on();
       }, 500);
@@ -222,7 +245,7 @@ var editor = {
     var res = str.replace(/\n +/g, '').trim();
 
     var send = function send() {
-      // alternative consume
+      // consume
       // window.addEventListener('message', function(ev) {
       //   if (ev.data.message === 'searchForKey') {
       //     console.warn(ev.data);
@@ -244,7 +267,7 @@ var editor = {
     };
 
     // assert the locizeInstance is still open
-    if (this.options.autoOpen && (!this.locizeInstance || this.locizeInstance.closed)) {
+    if (this.options.autoOpen && (this.options.mode !== 'iframe' && !this.locizeInstance || this.locizeInstance.closed)) {
       this.open();
       setTimeout(function () {
         send();
@@ -254,6 +277,7 @@ var editor = {
     }
   },
   open: function open() {
+    if (this.options.mode === "iframe") return this.locizeInstance = appendIframe(this.options.url, this.options);
     this.locizeInstance = window.open(this.options.url);
   },
   on: function on() {

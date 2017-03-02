@@ -2,10 +2,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="/locizify.js"></script>
+    <script src="https://unpkg.com/locizify@^2.0.0"></script>
     <script src="/locize-editor.js"></script>
     <script>
-      window.locizify.i18next.use(window.locizeEditor);
       var translation = window.locizify.init({
         debug: true,
         saveMissing: true,
@@ -25,12 +24,32 @@
         },
         editor: {
           enabled: false,
+          enableByQS: false,
           url: 'https://dev.locize.io'
         }
       });
       // setTimeout(function () {
       //   translation.start();
       // }, 4000);
+
+      // manually init editor
+      window.locizeEditor.init({
+        languages: ['en'],
+        options: {
+          defaultNS: 'translation',
+          backend: {
+            referenceLng: 'en',
+            apiKey: '27e9ecff-8926-43b0-80fd-e683abe49297',
+            projectId: 'c8038fbe-7be8-4f96-9692-943b3333185b',
+            // version: 'staging',
+            loadPath: 'https://api-dev.locize.io/{{projectId}}/latest/{{lng}}/{{ns}}',
+            addPath: 'https://api-dev.locize.io/missing/{{projectId}}/latest/{{lng}}/{{ns}}'
+          },
+          editor: {
+            url: 'https://dev.locize.io'
+          }
+        }
+      });
     </script>
   </head>
   <body class="landing-page" style='display: none'>
