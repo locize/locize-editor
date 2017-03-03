@@ -208,6 +208,9 @@ var defaultOptions = {
   url: 'https://www.locize.io',
   enabled: false,
   enableByQS: 'locize',
+  toggleKeyCode: 24,
+  toggleKeyModifier: 'ctrlKey',
+  lngOverrideQS: 'useLng',
   autoOpen: true,
   mode: getQueryVariable('locizeMode') || 'iframe',
   iframeContainerStyle: 'z-index: 1000; position: fixed; top: 0; right: 0; bottom: 0; width: 500px; box-shadow: -3px 0 5px 0 rgba(0,0,0,0.5);',
@@ -221,22 +224,29 @@ var editor = {
   init: function init(i18next) {
     var _this = this;
 
+    this.enabled = false;
     this.i18next = i18next;
     this.options = _extends({}, defaultOptions, i18next.options.editor);
     this.locizeUrl = i18next.options.editor && i18next.options.editor.url || 'https://www.locize.io';
 
     this.handler = this.handler.bind(this);
 
-    if (this.options.enabled || this.options.enableByQS && getQueryVariable(this.options.enableByQS)) {
+    if (this.options.enabled || this.options.enableByQS && getQueryVariable(this.options.enableByQS) === 'true') {
       setTimeout(function () {
         _this.toggleUI = initUI(_this.on.bind(_this), _this.off.bind(_this), _this.options);
         if (_this.options.autoOpen) _this.open();
         _this.on();
       }, 500);
     }
+
+    document.addEventListener('keypress', function (e) {
+      if (e[_this.options.toggleKeyModifier] && e.which === _this.options.toggleKeyCode) _this.enabled ? _this.off() : _this.on();
+    });
   },
   handler: function handler(e) {
     var _this2 = this;
+
+    e.preventDefault();
 
     var el = getClickedElement(e);
     if (!el) return;
@@ -255,7 +265,7 @@ var editor = {
         message: 'searchForKey',
         projectId: _this2.i18next.options.backend.projectId,
         version: _this2.i18next.options.backend.version || 'latest',
-        lng: _this2.i18next.languages[0],
+        lng: getQueryVariable(_this2.options.lngOverrideQS) || _this2.i18next.languages[0],
         ns: getElementNamespace(res, el, _this2.i18next),
         token: removeNamespace(res, _this2.i18next)
       };
@@ -283,10 +293,12 @@ var editor = {
   on: function on() {
     document.body.addEventListener("click", this.handler);
     this.toggleUI(true);
+    this.enabled = true;
   },
   off: function off() {
     document.body.removeEventListener("click", this.handler);
     this.toggleUI(false);
+    this.enabled = false;
   }
 };
 
