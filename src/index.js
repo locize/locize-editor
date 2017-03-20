@@ -10,7 +10,7 @@ const defaultOptions = {
   lngOverrideQS: 'useLng',
   autoOpen: true,
   mode: getQueryVariable('locizeMode') || 'iframe',
-  iframeContainerStyle: 'z-index: 1000; position: fixed; top: 0; right: 0; bottom: 0; width: 500px; box-shadow: -3px 0 5px 0 rgba(0,0,0,0.5);',
+  iframeContainerStyle: 'z-index: 2000; position: fixed; top: 0; right: 0; bottom: 0; width: 500px; box-shadow: -3px 0 5px 0 rgba(0,0,0,0.5);',
   iframeStyle: 'height: 100%; width: 500px; border: none;',
   bodyStyle: 'margin-right: 505px;'
 }

@@ -1,3 +1,6 @@
+### v1.0.0
+- optimize z-index
+
 ### v0.12.0
 - override lng with qs param useLng (useful for cimode usage)
 - preventDefault on clicked element avoiding href navigation
