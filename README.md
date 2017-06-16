@@ -84,7 +84,7 @@ locizify|locize|i18next.init({
 
     // turn on/off by pressing
     toggleKeyModifier: 'ctrlKey', // metaKey | altKey | shiftKey
-    toggleKeyCode: 24,
+    toggleKeyCode: 24, // x when pressing ctrl (e.which: document.addEventListener('keypress', (e) => console.warn(e.which, e));
 
     // use lng in editor, eg. if running with lng=cimode (i18next, locize)
     lngOverrideQS: 'useLng',
