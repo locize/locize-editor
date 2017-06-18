@@ -24,8 +24,8 @@
         },
         editor: {
           enabled: false,
-          enableByQS: false,
-          url: 'https://dev.locize.io'
+          enableByQS: true,
+          url: 'https://dev.locize.io' //'http://localhost:8080/editor' //
         }
       });
       // setTimeout(function () {
@@ -33,23 +33,23 @@
       // }, 4000);
 
       // manually init editor
-      window.locizeEditor.init({
-        languages: ['en'],
-        options: {
-          defaultNS: 'translation',
-          backend: {
-            referenceLng: 'en',
-            apiKey: '27e9ecff-8926-43b0-80fd-e683abe49297',
-            projectId: 'c8038fbe-7be8-4f96-9692-943b3333185b',
-            // version: 'staging',
-            loadPath: 'https://api-dev.locize.io/{{projectId}}/latest/{{lng}}/{{ns}}',
-            addPath: 'https://api-dev.locize.io/missing/{{projectId}}/latest/{{lng}}/{{ns}}'
-          },
-          editor: {
-            url: 'https://dev.locize.io'
-          }
-        }
-      });
+      // window.locizeEditor.init({
+      //   languages: ['en'],
+      //   options: {
+      //     defaultNS: 'translation',
+      //     backend: {
+      //       referenceLng: 'en',
+      //       apiKey: '27e9ecff-8926-43b0-80fd-e683abe49297',
+      //       projectId: 'c8038fbe-7be8-4f96-9692-943b3333185b',
+      //       // version: 'staging',
+      //       loadPath: 'https://api-dev.locize.io/{{projectId}}/latest/{{lng}}/{{ns}}',
+      //       addPath: 'https://api-dev.locize.io/missing/{{projectId}}/latest/{{lng}}/{{ns}}'
+      //     },
+      //     editor: {
+      //       url: 'http://localhost:8080/editor' //'https://dev.locize.io'
+      //     }
+      //   }
+      // });
     </script>
   </head>
   <body class="landing-page" style='display: none'>

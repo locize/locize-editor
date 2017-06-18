@@ -1,0 +1,28 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body class="landing-page">
+    <div id="results"></div>
+    <script>
+      var results = document.getElementById('results');
+      var source;
+
+      window.addEventListener('message', function(ev) {
+        if (ev.data.message === 'searchForKey') {
+          // console.warn("result: ", ev.data);
+          // parent => ev.source;
+          var textnode = document.createTextNode(JSON.stringify(ev.data));         // Create a text node
+          results.appendChild(textnode);
+
+          if (!source) source = ev.source;
+        }
+      });
+
+      document.addEventListener('keypress', (e) => {
+        if (source) source.postMessage({ which: e.which, metaKey: e.metaKey, altKey: e.altKey, ctrlKey: e.ctrlKey, shiftKey: e.shiftKey }, '*');
+      });
+    </script>
+  </body>
+</html>

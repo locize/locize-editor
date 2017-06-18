@@ -37,6 +37,11 @@ const editor = {
     document.addEventListener('keypress', (e) => {
       if (e[this.options.toggleKeyModifier] && e.which === this.options.toggleKeyCode) this.enabled ? this.off() : this.on();
     });
+
+    // listen to key press on locize service to disable
+    window.addEventListener('message', (e) => {
+      if (e.data[this.options.toggleKeyModifier] && e.data.which === this.options.toggleKeyCode) this.enabled ? this.off() : this.on();
+    });
   },
 
   handler(e) {

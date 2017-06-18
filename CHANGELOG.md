@@ -1,3 +1,6 @@
+### v1.1.0
+- enables listening to editor keypress on iframe - to toggle on/off while focus is on the iframe
+
 ### v1.0.0
 - optimize z-index
 

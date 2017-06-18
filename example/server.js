@@ -14,8 +14,8 @@ app.get('/', function(req, res) {
   res.sendFile(__dirname + '/index.html');
 });
 
-app.get('/receiver', function(req, res) {
-  res.sendFile(__dirname + '/receiver.html');
+app.get('/editor', function(req, res) {
+  res.sendFile(__dirname + '/debugEditor.html');
 });
 
 app.get('/locizify.js', function(req, res) {
