@@ -243,6 +243,7 @@ var editor = {
       if (e[_this.options.toggleKeyModifier] && e.which === _this.options.toggleKeyCode) _this.enabled ? _this.off() : _this.on();
     });
 
+    // listen to key press on locize service to disable
     window.addEventListener('message', function (e) {
       if (e.data[_this.options.toggleKeyModifier] && e.data.which === _this.options.toggleKeyCode) _this.enabled ? _this.off() : _this.on();
     });
