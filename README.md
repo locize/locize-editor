@@ -9,7 +9,7 @@ The locize-editor enables you to directly connect content from your website / ap
 
 Enabling the editor by querystring `?locize=true` you can click any text content on your website to open it on the right side editor window:
 
-![](http://locize.com/images/editor/editor.png "Screen of InContext Editor")
+![](http://docs.locize.com/assets/editor.png "Screen of InContext Editor")
 
 The linking could be turned on/off using the button on the lower right or by pressing `ctrl-x`.
 
