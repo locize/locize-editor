@@ -112,6 +112,7 @@ function getElementNamespace(str, el, i18next) {
 
     var find = function find(el) {
       var opts = el.getAttribute && el.getAttribute('i18next-options');
+      if (!opts) opts = el.getAttribute && el.getAttribute('data-i18next-options');
       if (opts) {
         var jsonData = {};
         try {

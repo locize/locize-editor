@@ -99,7 +99,8 @@ export function getElementNamespace(str, el, i18next) {
     let found;
 
     const find = (el) => {
-      const opts = el.getAttribute && el.getAttribute('i18next-options');
+      let opts = el.getAttribute && el.getAttribute('i18next-options')
+      if (!opts) opts = el.getAttribute && el.getAttribute('data-i18next-options');
       if (opts) {
         let jsonData = {};
         try {
