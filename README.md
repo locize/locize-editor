@@ -25,26 +25,8 @@ The editor is built into our [locizify script](https://github.com/locize/locizif
 
 Open edit mode by appending `?locize=true` to the querystring.
 
-For texts using plural or interpolation feature you will need to additionally add `&lng=cimode&useLng=[yourLocal]` to find a key.
+For texts using plural or interpolation feature you might need to additionally add `&lng=cimode&useLng=[yourLocal]` to find a key.
 
-### locize
-
-```
-import locizeEditor from 'locize-editor';
-import locize from 'locize';
-
-locize.use(locizeEditor);
-```
-
-As there is no possibility to find the used namespace per text you will need to toggle the lng to cimode. Additionally you will need to configure locize to append namespace in cimode by:
-
-```
-locize.init({
-  appendNamespaceToCIMode: true
-});
-```
-
-open your website with querystring `?locize=true&lng=cimode&useLng=[yourLocal]`.
 
 ### i18next with i18next-locize-backend
 
@@ -58,7 +40,30 @@ i18next
   .use(locizeEditor);
 ```
 
-As there is no possibility to find the used namespace per text you will need to toggle the lng to cimode. Additionally you will need to configure i18next to append namespace in cimode by:
+#### find the namespace
+
+As content is structured into multiple translation files we somehow need to detect/find the namespace (file) used for translating the clicked content.
+
+##### by adding attribute containing namespace
+
+The namespace will be detected from current clicked element or any of its parents.
+
+Following attributes are valid to look it up:
+
+```html
+<!-- preferred -->
+<div i18next-ns="myNamespace">content</div>
+<div data-i18next-ns="myNamespace">content</div>
+
+<!-- alternative: json stringified i18next options-->
+<div i18next-options="{\"ns\":\"myNamespace\"}">content</div>
+<div data-i18next-options="{\"ns\":\"myNamespace\"}">content</div>
+```
+
+
+##### by using cimode language
+
+If there is no possibility to find the used namespace per attribute on parent element you will need to toggle the lng to cimode. Additionally you will need to configure locize to append namespace in cimode by:
 
 ```
 i18next.init({

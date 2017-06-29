@@ -1,3 +1,9 @@
+### v1.3.0
+- read namespace from data-i18next-ns or i18next-ns too
+
+### v1.2.0
+- read namespace from data-i18next-options too
+
 ### v1.1.0
 - enables listening to editor keypress on iframe - to toggle on/off while focus is on the iframe
 

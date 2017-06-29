@@ -110,7 +110,8 @@ export function getElementNamespace(str, el, i18next) {
         }
         if (jsonData.ns) found = jsonData.ns
       }
-
+      if (!found) found = el.getAttribute && el.getAttribute('i18next-ns');
+      if (!found) found = el.getAttribute && el.getAttribute('data-i18next-ns');
       if (!found && el.parentElement) find(el.parentElement);
     }
     find(el);
