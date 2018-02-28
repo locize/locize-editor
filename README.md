@@ -19,6 +19,8 @@ Source can be loaded via [npm](https://www.npmjs.com/package/locize-editor), bow
 
 If not using a bundler the script will be added to `window.locizeEditor`.
 
+**Hint:** This module runs only in browser.
+
 ### locizify
 
 The editor is built into our [locizify script](https://github.com/locize/locizify). There is no additional step needed.
