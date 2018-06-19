@@ -15,13 +15,31 @@ The linking could be turned on/off using the button on the lower right or by pre
 
 ## Getting started
 
-Source can be loaded via [npm](https://www.npmjs.com/package/locize-editor), bower, [downloaded](https://github.com/locize/locize/blob/master/locize.min.js) from this repo or loaded from the npm CDN [unpkg.com/locize-editor](unpkg.com/locize-editor).
+Source can be loaded via [npm](https://www.npmjs.com/package/locize-editor), bower, [downloaded](https://github.com/locize/locize/blob/master/locize.min.js) from this repo or loaded from the npm CDN [unpkg.com/locize-editor](https://unpkg.com/locize-editor/locize-editor.min.js).
 
 If not using a bundler the script will be added to `window.locizeEditor`.
 
 **Hint:** This module runs only in browser.
 
-### locizify
+## Using
+
+### as standalone
+
+Just init like:
+
+```js
+locizeEditor.init({
+  lng: 'fr',
+  defaultNS: 'namespaceToUse',
+  projectId: '[yourProjectID]',
+  referenceLng: 'en',
+});
+```
+Open edit mode by appending `?locize=true` to the querystring.
+
+For additional options see below **Initialize with optional options**
+
+### with locizify
 
 The editor is built into our [locizify script](https://github.com/locize/locizify). There is no additional step needed.
 
@@ -30,7 +48,7 @@ Open edit mode by appending `?locize=true` to the querystring.
 For texts using plural or interpolation feature you might need to additionally add `&lng=cimode&useLng=[yourLocal]` to find a key.
 
 
-### i18next with i18next-locize-backend
+### with i18next and i18next-locize-backend
 
 ```
 import locizeEditor from 'locize-editor';
@@ -53,7 +71,11 @@ The namespace will be detected from current clicked element or any of its parent
 Following attributes are valid to look it up:
 
 ```html
-<!-- preferred -->
+<!-- standalone -->
+<div i18n-ns="myNamespace">content</div>
+<div data-i18n-ns="myNamespace">content</div>
+
+<!-- i18next: preferred -->
 <div i18next-ns="myNamespace">content</div>
 <div data-i18next-ns="myNamespace">content</div>
 
@@ -79,30 +101,37 @@ open your website with querystring `?locize=true&lng=cimode&useLng=[yourLocal]`.
 
 You can configure some aspects like layout by adding init options.
 
-```
+```js
+
+// standalone
+locizeEditor.init({
+  // enable on init without the need of adding querystring locize=true
+  enabled: false,
+  autoOpen: true, // if set to false you will need to open it via API
+
+  // enable by adding querystring locize=true; can be set to another value or turned off by setting to false
+  enableByQS: 'locize',
+
+  // turn on/off by pressing
+  toggleKeyModifier: 'ctrlKey', // metaKey | altKey | shiftKey
+  toggleKeyCode: 24, // x when pressing ctrl (e.which: document.addEventListener('keypress', (e) => console.warn(e.which, e));
+
+  // use lng in editor, eg. if running with lng=cimode (i18next, locize)
+  lngOverrideQS: 'useLng',
+
+  // default will open a iframe; setting to window will open a new window/tab instead
+  mode: 'iframe' // 'window',
+
+  // styles to adapt layout in iframe mode to your website layout
+  iframeContainerStyle: 'z-index: 1000; position: fixed; top: 0; right: 0; bottom: 0; width: 600px; box-shadow: -3px 0 5px 0 rgba(0,0,0,0.5);',
+  iframeStyle: 'height: 100%; width: 600px; border: none;',
+  bodyStyle: 'margin-right: 605px;'
+})
+
+// i18next, ...
 locizify|locize|i18next.init({
   editor: {
-    // enable on init without the need of adding querystring locize=true
-    enabled: false,
-    autoOpen: true, // if set to false you will need to open it via API
-
-    // enable by adding querystring locize=true; can be set to another value or turned off by setting to false
-    enableByQS: 'locize',
-
-    // turn on/off by pressing
-    toggleKeyModifier: 'ctrlKey', // metaKey | altKey | shiftKey
-    toggleKeyCode: 24, // x when pressing ctrl (e.which: document.addEventListener('keypress', (e) => console.warn(e.which, e));
-
-    // use lng in editor, eg. if running with lng=cimode (i18next, locize)
-    lngOverrideQS: 'useLng',
-
-    // default will open a iframe; setting to window will open a new window/tab instead
-    mode: 'iframe' // 'window',
-
-    // styles to adapt layout in iframe mode to your website layout
-    iframeContainerStyle: 'z-index: 1000; position: fixed; top: 0; right: 0; bottom: 0; width: 500px; box-shadow: -3px 0 5px 0 rgba(0,0,0,0.5);',
-    iframeStyle: 'height: 100%; width: 500px; border: none;',
-    bodyStyle: 'margin-right: 505px;'
+    // all options above
   }
 });
 ```

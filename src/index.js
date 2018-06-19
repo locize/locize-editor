@@ -10,15 +10,30 @@ const defaultOptions = {
   lngOverrideQS: 'useLng',
   autoOpen: true,
   mode: getQueryVariable('locizeMode') || 'iframe',
-  iframeContainerStyle: 'z-index: 2000; position: fixed; top: 0; right: 0; bottom: 0; width: 500px; box-shadow: -3px 0 5px 0 rgba(0,0,0,0.5);',
-  iframeStyle: 'height: 100%; width: 500px; border: none;',
-  bodyStyle: 'margin-right: 505px;'
+  iframeContainerStyle: 'z-index: 2000; position: fixed; top: 0; right: 0; bottom: 0; width: 600px; box-shadow: -3px 0 5px 0 rgba(0,0,0,0.5);',
+  iframeStyle: 'height: 100%; width: 600px; border: none;',
+  bodyStyle: 'margin-right: 605px;'
+}
+
+function convertOptionsToI18next(opts) {
+  return {
+    languages: [opts.lng],
+    nsSeparator: opts.nsSeparator || ':',
+    options: {
+      editor: opts,
+      backend: opts,
+      defaultNS: opts.defaultNS
+    }
+  };
 }
 
 const editor = {
   type: '3rdParty',
 
   init(i18next) {
+    // convert standalone options
+    if (i18next && !i18next.init) i18next = convertOptionsToI18next(i18next);
+
     this.enabled = false;
     this.i18next = i18next;
     this.options = { ...defaultOptions, ...i18next.options.editor };

@@ -1,3 +1,6 @@
+### v1.4.0
+- standalone option to init without i18next usage
+
 ### v1.3.0
 - read namespace from data-i18next-ns or i18next-ns too
 

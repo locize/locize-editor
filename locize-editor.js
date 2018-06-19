@@ -91,7 +91,7 @@ function getClickedElement(e) {
 
 function removeNamespace(str, i18next) {
   var res = str;
-  var nsSeparator = i18next.options.nsSeparator;
+  var nsSeparator = i18next.options.nsSeparator || ':';
 
   if (str.indexOf(nsSeparator) > -1) {
     var p = str.split(nsSeparator);
@@ -103,7 +103,7 @@ function removeNamespace(str, i18next) {
 
 function getElementNamespace(str, el, i18next) {
   var namespace = i18next.options.defaultNS;
-  var nsSeparator = i18next.options.nsSeparator;
+  var nsSeparator = i18next.options.nsSeparator || ':';
 
   if (str.indexOf(nsSeparator) > -1) {
     namespace = str.split(nsSeparator)[0];
@@ -113,6 +113,8 @@ function getElementNamespace(str, el, i18next) {
     var find = function find(el) {
       var opts = el.getAttribute && el.getAttribute('i18next-options');
       if (!opts) opts = el.getAttribute && el.getAttribute('data-i18next-options');
+      if (!opts) opts = el.getAttribute && el.getAttribute('i18n-options');
+      if (!opts) opts = el.getAttribute && el.getAttribute('data-i18n-options');
       if (opts) {
         var jsonData = {};
         try {
@@ -124,6 +126,8 @@ function getElementNamespace(str, el, i18next) {
       }
       if (!found) found = el.getAttribute && el.getAttribute('i18next-ns');
       if (!found) found = el.getAttribute && el.getAttribute('data-i18next-ns');
+      if (!found) found = el.getAttribute && el.getAttribute('i18n-ns');
+      if (!found) found = el.getAttribute && el.getAttribute('data-i18n-ns');
       if (!found && el.parentElement) find(el.parentElement);
     };
     find(el);
@@ -215,16 +219,31 @@ var defaultOptions = {
   lngOverrideQS: 'useLng',
   autoOpen: true,
   mode: getQueryVariable('locizeMode') || 'iframe',
-  iframeContainerStyle: 'z-index: 2000; position: fixed; top: 0; right: 0; bottom: 0; width: 500px; box-shadow: -3px 0 5px 0 rgba(0,0,0,0.5);',
-  iframeStyle: 'height: 100%; width: 500px; border: none;',
-  bodyStyle: 'margin-right: 505px;'
+  iframeContainerStyle: 'z-index: 2000; position: fixed; top: 0; right: 0; bottom: 0; width: 600px; box-shadow: -3px 0 5px 0 rgba(0,0,0,0.5);',
+  iframeStyle: 'height: 100%; width: 600px; border: none;',
+  bodyStyle: 'margin-right: 605px;'
 };
+
+function convertOptionsToI18next(opts) {
+  return {
+    languages: [opts.lng],
+    nsSeparator: opts.nsSeparator || ':',
+    options: {
+      editor: opts,
+      backend: opts,
+      defaultNS: opts.defaultNS
+    }
+  };
+}
 
 var editor = {
   type: '3rdParty',
 
   init: function init(i18next) {
     var _this = this;
+
+    // convert standalone options
+    if (i18next && !i18next.init) i18next = convertOptionsToI18next(i18next);
 
     this.enabled = false;
     this.i18next = i18next;

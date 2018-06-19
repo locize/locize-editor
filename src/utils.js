@@ -79,7 +79,7 @@ export function getClickedElement(e) {
 
 export function removeNamespace(str, i18next) {
   let res = str;
-  const nsSeparator = i18next.options.nsSeparator;
+  const nsSeparator = i18next.options.nsSeparator || ':';
 
   if (str.indexOf(nsSeparator) > -1) {
     const p = str.split(nsSeparator);
@@ -91,7 +91,7 @@ export function removeNamespace(str, i18next) {
 
 export function getElementNamespace(str, el, i18next) {
   let namespace = i18next.options.defaultNS;
-  const nsSeparator = i18next.options.nsSeparator;
+  const nsSeparator = i18next.options.nsSeparator || ':';
 
   if (str.indexOf(nsSeparator) > -1) {
     namespace = str.split(nsSeparator)[0];
@@ -101,6 +101,8 @@ export function getElementNamespace(str, el, i18next) {
     const find = (el) => {
       let opts = el.getAttribute && el.getAttribute('i18next-options')
       if (!opts) opts = el.getAttribute && el.getAttribute('data-i18next-options');
+      if (!opts) opts = el.getAttribute && el.getAttribute('i18n-options');
+      if (!opts) opts = el.getAttribute && el.getAttribute('data-i18n-options');
       if (opts) {
         let jsonData = {};
         try {
@@ -112,6 +114,8 @@ export function getElementNamespace(str, el, i18next) {
       }
       if (!found) found = el.getAttribute && el.getAttribute('i18next-ns');
       if (!found) found = el.getAttribute && el.getAttribute('data-i18next-ns');
+      if (!found) found = el.getAttribute && el.getAttribute('i18n-ns');
+      if (!found) found = el.getAttribute && el.getAttribute('data-i18n-ns');
       if (!found && el.parentElement) find(el.parentElement);
     }
     find(el);
