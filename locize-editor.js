@@ -20,7 +20,8 @@ function offset(elem) {
       box = { top: 0, left: 0, right: 0, bottom: 0 },
       doc = elem && elem.ownerDocument;
 
-  docElem = doc.documentElement;
+  docElem = doc && doc.documentElement;
+  if (!docElem) return box;
 
   if (_typeof(elem.getBoundingClientRect) !== (typeof undefined === 'undefined' ? 'undefined' : _typeof(undefined))) {
     box = elem.getBoundingClientRect();
@@ -38,6 +39,9 @@ function offset(elem) {
 }
 
 function getClickedElement(e) {
+  // clicked input
+  if (e.srcElement && e.srcElement.nodeType === 1) return e.srcElement;
+
   var el = void 0,
       toHigh = void 0,
       toLeft = void 0,
@@ -83,7 +87,7 @@ function getClickedElement(e) {
         break;
       }
 
-      if (_n.nodeType !== 8) el = _n;
+      if (_n && _n.nodeType !== 8) el = _n;
     }
   }
   return el;
@@ -277,7 +281,7 @@ var editor = {
     var el = getClickedElement(e);
     if (!el) return;
 
-    var str = el.textContent || el.text.innerText;
+    var str = el.textContent || el.text && el.text.innerText || el.placeholder;
     var res = str.replace(/\n +/g, '').trim();
 
     var send = function send() {

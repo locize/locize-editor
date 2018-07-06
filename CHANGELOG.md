@@ -1,3 +1,6 @@
+### v1.5.0
+- support for input.placeholder
+
 ### v1.4.0
 - standalone option to init without i18next usage
 

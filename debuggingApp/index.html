@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-i18n/dist/vue-i18n.js"></script>
+    <script src="https://unpkg.com/locizer/locizer.min.js"></script>
+    <script src="/locize-editor.js"></script>
+  </head>
+  <body style="display: block;">
+    <div id="app">
+      <p>{{ $t("message.hello") }}</p>
+      <input type="text" v-bind:placeholder="$t('message.placeholder')">
+    </div>
+    <script>
+      var NAMESPACE = 'translations'
+      var PROJECTID = '832e1b7a-fb77-4a10-b3cb-78b75e0b78db'
+      var APIKEY = 'cd2b28ed-a2d7-43fb-b215-5d0deade8441'
+      var REFERENCELANGUAGE = 'en'
+      // init locizer (https://github.com/locize/locizer)
+      locizer
+        .init({
+          fallbackLng: 'en',
+          referenceLng: REFERENCELANGUAGE,
+          projectId: PROJECTID,
+          apiKey: APIKEY,
+          loadPath: 'https://api-dev.locize.io/{{projectId}}/latest/{{lng}}/{{ns}}',
+          addPath: 'https://api-dev.locize.io/missing/{{projectId}}/latest/{{lng}}/{{ns}}'
+        })
+        .load(NAMESPACE, (err, translations, detectedLng) => {
+          // build message catalog format
+          var messages = {};
+          messages[detectedLng] = translations;
+          // Create VueI18n instance with options
+          const i18n = new VueI18n({
+            locale: detectedLng, // set locale
+            messages: messages, // set locale messages
+            missing: function(locale, path, vue) {
+              // pipe to locize - that key will be created for you
+              locizer.add(NAMESPACE, path, path);
+            }
+          })
+          // Create a Vue instance with `i18n` option
+          new Vue({ i18n }).$mount('#app')
+          // set body visible on ready
+          document.body.style.display = 'block';
+          // init incontext editor
+          locizeEditor.init({
+            lng: detectedLng,
+            defaultNS: NAMESPACE,
+            referenceLng: REFERENCELANGUAGE,
+            projectId: PROJECTID,
+            enabled: true,
+            enableByQS: true,
+            url: 'https://dev.locize.io' //'http://localhost:8080/editor' //
+          })
+        });
+    </script>
+  </body>
+</html>

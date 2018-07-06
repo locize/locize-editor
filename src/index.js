@@ -65,7 +65,7 @@ const editor = {
     const el = getClickedElement(e);
     if (!el) return;
 
-    const str = el.textContent || el.text.innerText;
+    const str = el.textContent || (el.text && el.text.innerText) || el.placeholder;
     const res = str.replace(/\n +/g, '').trim();
 
 

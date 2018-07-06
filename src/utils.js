@@ -11,7 +11,8 @@ export function offset(elem) {
       box = { top: 0, left: 0, right: 0, bottom: 0 },
       doc = elem && elem.ownerDocument;
 
-  docElem = doc.documentElement;
+  docElem = doc && doc.documentElement;
+	if (!docElem) return box;
 
   if (typeof elem.getBoundingClientRect !== typeof undefined) {
     box = elem.getBoundingClientRect();
@@ -29,6 +30,9 @@ export function offset(elem) {
 };
 
 export function getClickedElement(e) {
+  // clicked input
+  if (e.srcElement && e.srcElement.nodeType === 1) return e.srcElement;
+
   let el, toHigh, toLeft, toLeftNextOffset;
 
   if (e.originalEvent && e.originalEvent.explicitOriginalTarget) {
@@ -71,7 +75,7 @@ export function getClickedElement(e) {
         break;
       }
 
-      if (n.nodeType !== 8) el = n;
+      if (n && n.nodeType !== 8) el = n;
     }
   }
   return el;
