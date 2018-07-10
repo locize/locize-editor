@@ -61,6 +61,7 @@ const editor = {
 
   handler(e) {
     e.preventDefault();
+    e.stopPropagation();
 
     const el = getClickedElement(e);
     if (!el) return;
