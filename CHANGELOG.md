@@ -1,3 +1,6 @@
+### v1.5.1
+- prevent link following [#4](https://github.com/locize/locize-editor/pull/4)
+
 ### v1.5.0
 - support for input.placeholder
 

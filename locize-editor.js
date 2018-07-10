@@ -277,6 +277,7 @@ var editor = {
     var _this2 = this;
 
     e.preventDefault();
+    e.stopPropagation();
 
     var el = getClickedElement(e);
     if (!el) return;
