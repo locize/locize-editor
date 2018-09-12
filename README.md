@@ -124,6 +124,8 @@ locizeEditor.init({
 });
 ```
 
+see the sample for react.js [i18next/react-i18next sample](https://github.com/i18next/react-i18next/blob/master/example/locize-example/src/i18n.js#L45)
+
 ### find the namespace
 
 As content is structured into multiple translation files we somehow need to detect/find the namespace (file) used for translating the clicked content.
