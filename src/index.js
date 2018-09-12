@@ -9,6 +9,7 @@ const defaultOptions = {
   toggleKeyModifier: 'ctrlKey',
   lngOverrideQS: 'useLng',
   autoOpen: true,
+  onEditorSaved: (lng, ns) => {},
   mode: getQueryVariable('locizeMode') || 'iframe',
   iframeContainerStyle: 'z-index: 2000; position: fixed; top: 0; right: 0; bottom: 0; width: 600px; box-shadow: -3px 0 5px 0 rgba(0,0,0,0.5);',
   iframeStyle: 'height: 100%; width: 600px; border: none;',
@@ -56,6 +57,10 @@ const editor = {
     // listen to key press on locize service to disable
     window.addEventListener('message', (e) => {
       if (e.data[this.options.toggleKeyModifier] && e.data.which === this.options.toggleKeyCode) this.enabled ? this.off() : this.on();
+
+      if (e.data.type === 'savedSegments') {
+        this.options.onEditorSaved(e.data.lng, e.data.ns);
+      }
     });
   },
 

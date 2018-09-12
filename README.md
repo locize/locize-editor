@@ -23,18 +23,19 @@ If not using a bundler the script will be added to `window.locizeEditor`.
 
 ## Using
 
-### as standalone
+### standalone
 
 Just init like:
 
 ```js
 locizeEditor.init({
-  lng: 'fr',
-  defaultNS: 'namespaceToUse',
-  projectId: '[yourProjectID]',
-  referenceLng: 'en',
+  lng: "fr",
+  defaultNS: "namespaceToUse",
+  projectId: "[yourProjectID]",
+  referenceLng: "en"
 });
 ```
+
 Open edit mode by appending `?locize=true` to the querystring.
 
 For additional options see below **Initialize with optional options**
@@ -46,7 +47,6 @@ The editor is built into our [locizify script](https://github.com/locize/locizif
 Open edit mode by appending `?locize=true` to the querystring.
 
 For texts using plural or interpolation feature you might need to additionally add `&lng=cimode&useLng=[yourLocal]` to find a key.
-
 
 ### with i18next and i18next-locize-backend
 
@@ -60,49 +60,11 @@ i18next
   .use(locizeEditor);
 ```
 
-#### find the namespace
-
-As content is structured into multiple translation files we somehow need to detect/find the namespace (file) used for translating the clicked content.
-
-##### by adding attribute containing namespace
-
-The namespace will be detected from current clicked element or any of its parents.
-
-Following attributes are valid to look it up:
-
-```html
-<!-- standalone -->
-<div i18n-ns="myNamespace">content</div>
-<div data-i18n-ns="myNamespace">content</div>
-
-<!-- i18next: preferred -->
-<div i18next-ns="myNamespace">content</div>
-<div data-i18next-ns="myNamespace">content</div>
-
-<!-- alternative: json stringified i18next options-->
-<div i18next-options="{\"ns\":\"myNamespace\"}">content</div>
-<div data-i18next-options="{\"ns\":\"myNamespace\"}">content</div>
-```
-
-
-##### by using cimode language
-
-If there is no possibility to find the used namespace per attribute on parent element you will need to toggle the lng to cimode. Additionally you will need to configure locize to append namespace in cimode by:
-
-```
-i18next.init({
-  appendNamespaceToCIMode: true
-});
-```
-
-open your website with querystring `?locize=true&lng=cimode&useLng=[yourLocal]`.
-
 ### Initialize with optional options
 
 You can configure some aspects like layout by adding init options.
 
 ```js
-
 // standalone
 locizeEditor.init({
   // enable on init without the need of adding querystring locize=true
@@ -125,7 +87,10 @@ locizeEditor.init({
   // styles to adapt layout in iframe mode to your website layout
   iframeContainerStyle: 'z-index: 1000; position: fixed; top: 0; right: 0; bottom: 0; width: 600px; box-shadow: -3px 0 5px 0 rgba(0,0,0,0.5);',
   iframeStyle: 'height: 100%; width: 600px; border: none;',
-  bodyStyle: 'margin-right: 605px;'
+  bodyStyle: 'margin-right: 605px;',
+
+  // handle when locize saved the edited translations, eg. reload website
+  onEditorSaved: function(lng, ns) { location.reload(); }
 })
 
 // i18next, ...
@@ -135,3 +100,64 @@ locizify|locize|i18next.init({
   }
 });
 ```
+
+### update your application when you saved changes in locize editor
+
+use the onEditorSaved handler
+
+```js
+// reload the full page
+locizeEditor.init({
+  onEditorSaved: function(lng, ns) {
+    location.reload();
+  }
+});
+
+// reload translations in i18next and trigger a rerender
+locizeEditor.init({
+  onEditorSaved: function(lng, ns) {
+    i18next.reloadResources(lng, ns, () => {
+      // trigger rerender on your app if needed
+      // note: reloadResources can take an optional callback in i18next@>=11.9.0
+    });
+  }
+});
+```
+
+### find the namespace
+
+As content is structured into multiple translation files we somehow need to detect/find the namespace (file) used for translating the clicked content.
+
+If locize is not able to detect the right namespace it will fallback for a fuzzy global search - which in most cases should also provide the correct result. But you might like to get more control.
+
+##### by adding attribute containing namespace
+
+The namespace will be detected from current clicked element or any of its parents.
+
+Following attributes are valid to look it up:
+
+```html
+<!-- standalone -->
+<div i18n-ns="myNamespace">content</div>
+<div data-i18n-ns="myNamespace">content</div>
+
+<!-- i18next: preferred -->
+<div i18next-ns="myNamespace">content</div>
+<div data-i18next-ns="myNamespace">content</div>
+
+<!-- alternative: json stringified i18next options-->
+<div i18next-options="{\"ns\":\"myNamespace\"}">content</div>
+<div data-i18next-options="{\"ns\":\"myNamespace\"}">content</div>
+```
+
+##### by using cimode language
+
+If there is no possibility to find the used namespace per attribute on parent element you will need to toggle the lng to cimode. Additionally you will need to configure locize to append namespace in cimode by:
+
+```
+i18next.init({
+  appendNamespaceToCIMode: true
+});
+```
+
+open your website with querystring `?locize=true&lng=cimode&useLng=[yourLocal]`.

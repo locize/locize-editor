@@ -222,6 +222,7 @@ var defaultOptions = {
   toggleKeyModifier: 'ctrlKey',
   lngOverrideQS: 'useLng',
   autoOpen: true,
+  onEditorSaved: function onEditorSaved(lng, ns) {},
   mode: getQueryVariable('locizeMode') || 'iframe',
   iframeContainerStyle: 'z-index: 2000; position: fixed; top: 0; right: 0; bottom: 0; width: 600px; box-shadow: -3px 0 5px 0 rgba(0,0,0,0.5);',
   iframeStyle: 'height: 100%; width: 600px; border: none;',
@@ -271,6 +272,10 @@ var editor = {
     // listen to key press on locize service to disable
     window.addEventListener('message', function (e) {
       if (e.data[_this.options.toggleKeyModifier] && e.data.which === _this.options.toggleKeyCode) _this.enabled ? _this.off() : _this.on();
+
+      if (e.data.type === 'savedSegments') {
+        _this.options.onEditorSaved(e.data.lng, e.data.ns);
+      }
     });
   },
   handler: function handler(e) {
