@@ -31,7 +31,10 @@ export function offset(elem) {
 
 export function getClickedElement(e) {
   // clicked input
-  if (e.srcElement && e.srcElement.nodeType === 1) return e.srcElement;
+  if (e.srcElement && e.srcElement.nodeType === 1) {
+    if (e.srcElement.getAttribute && e.srcElement.getAttribute('ignorelocizeeditor') === '') return null;
+    return e.srcElement;
+  }
 
   let el, toHigh, toLeft, toLeftNextOffset;
 
