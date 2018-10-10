@@ -1,3 +1,7 @@
+### v1.6.1
+
+- click event handler: prioritize over existing dom click events [5](https://github.com/locize/locize-editor/pull/5)
+
 ### v1.6.0
 
 - option to trigger rerender on locize saved segments options.onEditorSaved: function(lng, ns) {}

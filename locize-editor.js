@@ -288,6 +288,7 @@ var editor = {
     if (!el) return;
 
     var str = el.textContent || el.text && el.text.innerText || el.placeholder;
+    if (typeof str !== "string") return;
     var res = str.replace(/\n +/g, '').trim();
 
     var send = function send() {
@@ -327,7 +328,7 @@ var editor = {
     this.locizeInstance = window.open(this.options.url);
   },
   on: function on() {
-    document.body.addEventListener("click", this.handler);
+    document.body.addEventListener("click", this.handler, true);
     this.toggleUI(true);
     this.enabled = true;
   },
