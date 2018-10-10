@@ -281,11 +281,11 @@ var editor = {
   handler: function handler(e) {
     var _this2 = this;
 
-    e.preventDefault();
-    e.stopPropagation();
-
     var el = getClickedElement(e);
     if (!el) return;
+
+    e.preventDefault();
+    e.stopPropagation();
 
     var str = el.textContent || el.text && el.text.innerText || el.placeholder;
     if (typeof str !== "string") return;
