@@ -116,7 +116,7 @@ const editor = {
   },
 
   on() {
-    document.body.addEventListener("click", this.handler);
+    document.body.addEventListener("click", this.handler, true);
     this.toggleUI(true);
     this.enabled = true;
   },
