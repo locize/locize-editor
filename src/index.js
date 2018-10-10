@@ -72,6 +72,7 @@ const editor = {
     if (!el) return;
 
     const str = el.textContent || (el.text && el.text.innerText) || el.placeholder;
+    if (typeof str !== "string") return;
     const res = str.replace(/\n +/g, '').trim();
 
 
