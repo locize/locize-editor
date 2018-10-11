@@ -40,7 +40,10 @@ function offset(elem) {
 
 function getClickedElement(e) {
   // clicked input
-  if (e.srcElement && e.srcElement.nodeType === 1) return e.srcElement;
+  if (e.srcElement && e.srcElement.nodeType === 1) {
+    if (e.srcElement.getAttribute && e.srcElement.getAttribute('ignorelocizeeditor') === '') return null;
+    return e.srcElement;
+  }
 
   var el = void 0,
       toHigh = void 0,
@@ -333,7 +336,7 @@ var editor = {
     this.enabled = true;
   },
   off: function off() {
-    document.body.removeEventListener("click", this.handler);
+    document.body.removeEventListener("click", this.handler, true);
     this.toggleUI(false);
     this.enabled = false;
   }

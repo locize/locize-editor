@@ -1,3 +1,7 @@
+### v1.6.3
+
+- ignore ignorelocizeeditor: another instance [7](https://github.com/locize/locize-editor/pull/7)
+
 ### v1.6.2
 
 - click handler: make ignorelocizeeditor elements clickable again [6](https://github.com/locize/locize-editor/pull/6)
