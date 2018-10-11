@@ -78,8 +78,11 @@ locizeEditor.init({
   toggleKeyModifier: 'ctrlKey', // metaKey | altKey | shiftKey
   toggleKeyCode: 24, // x when pressing ctrl (e.which: document.addEventListener('keypress', (e) => console.warn(e.which, e));
 
-  // use lng in editor, eg. if running with lng=cimode (i18next, locize)
+  // use lng in editor taken from query string, eg. if running with lng=cimode (i18next, locize)
   lngOverrideQS: 'useLng',
+
+  // use lng in editor, eg. if running with lng=cimode (i18next, locize)
+  lngOverride: null,
 
   // default will open a iframe; setting to window will open a new window/tab instead
   mode: 'iframe' // 'window',

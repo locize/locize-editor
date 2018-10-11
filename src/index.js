@@ -8,6 +8,7 @@ const defaultOptions = {
   toggleKeyCode: 24,
   toggleKeyModifier: 'ctrlKey',
   lngOverrideQS: 'useLng',
+  lngOverride: null,
   autoOpen: true,
   onEditorSaved: (lng, ns) => {},
   mode: getQueryVariable('locizeMode') || 'iframe',
@@ -89,7 +90,7 @@ const editor = {
         message: 'searchForKey',
         projectId: this.i18next.options.backend.projectId,
         version: this.i18next.options.backend.version || 'latest',
-        lng: getQueryVariable(this.options.lngOverrideQS) || this.i18next.languages[0],
+        lng: getQueryVariable(this.options.lngOverrideQS) || this.options.lngOverride || this.i18next.languages[0],
         ns: getElementNamespace(res, el, this.i18next),
         token: removeNamespace(res, this.i18next)
       };
