@@ -124,7 +124,7 @@ const editor = {
   },
 
   off() {
-    document.body.removeEventListener("click", this.handler);
+    document.body.removeEventListener("click", this.handler, true);
     this.toggleUI(false);
     this.enabled = false;
   }
