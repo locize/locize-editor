@@ -1,3 +1,7 @@
+### v1.7.0
+
+- allow setting lngOverride via init options as alternative to querystring [8](https://github.com/locize/locize-editor/pull/8)
+
 ### v1.6.3
 
 - ignore ignorelocizeeditor: another instance [7](https://github.com/locize/locize-editor/pull/7)

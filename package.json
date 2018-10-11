@@ -1,6 +1,6 @@
 {
   "name": "locize-editor",
-  "version": "1.6.3",
+  "version": "1.7.0",
   "description": "editor plugin",
   "main": "dist/commonjs/index.js",
   "jsnext:main": "dist/es/index.js",

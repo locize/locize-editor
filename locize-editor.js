@@ -224,6 +224,7 @@ var defaultOptions = {
   toggleKeyCode: 24,
   toggleKeyModifier: 'ctrlKey',
   lngOverrideQS: 'useLng',
+  lngOverride: null,
   autoOpen: true,
   onEditorSaved: function onEditorSaved(lng, ns) {},
   mode: getQueryVariable('locizeMode') || 'iframe',
@@ -305,7 +306,7 @@ var editor = {
         message: 'searchForKey',
         projectId: _this2.i18next.options.backend.projectId,
         version: _this2.i18next.options.backend.version || 'latest',
-        lng: getQueryVariable(_this2.options.lngOverrideQS) || _this2.i18next.languages[0],
+        lng: getQueryVariable(_this2.options.lngOverrideQS) || _this2.options.lngOverride || _this2.i18next.languages[0],
         ns: getElementNamespace(res, el, _this2.i18next),
         token: removeNamespace(res, _this2.i18next)
       };
