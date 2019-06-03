@@ -22,4 +22,3 @@ bin/**/*
 
 # Deployment
 aws-credentials.json
-package-lock.json

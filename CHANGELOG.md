@@ -1,3 +1,10 @@
+### 2.0.0
+
+- removes deprecated jsnext:main from package.json
+- Bundle all entry points with rollup [10](https://github.com/locize/locize-editor/pull/10)
+- **note:** dist/es -> dist/esm, dist/commonjs -> dist/cjs (individual files -> one bundled file)
+- removes bower finally
+
 ### v1.7.0
 
 - allow setting lngOverride via init options as alternative to querystring [8](https://github.com/locize/locize-editor/pull/8)
