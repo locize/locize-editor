@@ -1,33 +1,42 @@
 import babel from 'rollup-plugin-babel';
-import uglify from 'rollup-plugin-uglify';
 import nodeResolve from 'rollup-plugin-node-resolve';
-import commonjs from 'rollup-plugin-commonjs';
-import { argv } from 'yargs';
+import { terser } from 'rollup-plugin-terser';
+import pkg from './package.json';
 
-const format = argv.format || argv.f || 'iife';
-const compress = argv.uglify;
+const getBabelOptions = ({ useESModules }) => ({
+  exclude: /node_modules/,
+  runtimeHelpers: true,
+  plugins: [['@babel/transform-runtime', { useESModules }]],
+});
 
-const babelOptions = {
-  exclude: 'node_modules/**',
-  presets: [['es2015', { modules: false }], 'stage-0'],
-  babelrc: false
-};
+const input = './src/index.js';
+const name = 'locizeEditor';
+// check relative and absolute paths for windows and unix
+const external = id => !id.startsWith('.') && !id.startsWith('/') && !id.includes(':');
 
-const dest = {
-  amd: `dist/amd/locize-editor${compress ? '.min' : ''}.js`,
-  umd: `dist/umd/locize-editor${compress ? '.min' : ''}.js`,
-  iife: `dist/iife/locize-editor${compress ? '.min' : ''}.js`
-}[format];
+export default [
+  {
+    input,
+    output: { format: 'cjs', exports: 'named', file: pkg.main },
+    external,
+    plugins: [babel(getBabelOptions({ useESModules: false }))],
+  },
 
-export default {
-  entry: 'src/index.js',
-  format,
-  plugins: [
-    babel(babelOptions),
-    nodeResolve({ jsnext: true, main: true }),
-    commonjs()
-  ].concat(compress ? uglify() : []),
-  moduleName: 'locizeEditor',
-  //moduleId: 'locizify',
-  dest
-};
+  {
+    input,
+    output: { format: 'esm', file: pkg.module },
+    external,
+    plugins: [babel(getBabelOptions({ useESModules: true }))],
+  },
+
+  {
+    input,
+    output: { format: 'umd', name, file: `dist/umd/${pkg.name}.js` },
+    plugins: [babel(getBabelOptions({ useESModules: true })), nodeResolve()],
+  },
+  {
+    input,
+    output: { format: 'umd', name, file: `dist/umd/${pkg.name}.min.js` },
+    plugins: [babel(getBabelOptions({ useESModules: true })), nodeResolve(), terser()],
+  },
+];
