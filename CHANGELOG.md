@@ -1,3 +1,7 @@
+### 2.1.0
+
+- open project specified instead of dashboard
+
 ### 2.0.0
 
 - removes deprecated jsnext:main from package.json

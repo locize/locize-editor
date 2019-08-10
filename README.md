@@ -9,7 +9,7 @@ The locize-editor enables you to directly connect content from your website / ap
 
 Enabling the editor by querystring `?locize=true` you can click any text content on your website to open it on the right side editor window:
 
-![](http://docs.locize.com/assets/editor.png "Screen of InContext Editor")
+![](http://docs.locize.com/assets/editor.png 'Screen of InContext Editor')
 
 The linking could be turned on/off using the button on the lower right or by pressing `ctrl-x`.
 
@@ -29,10 +29,10 @@ Just init like:
 
 ```js
 locizeEditor.init({
-  lng: "fr",
-  defaultNS: "namespaceToUse",
-  projectId: "[yourProjectID]",
-  referenceLng: "en"
+  lng: 'fr',
+  defaultNS: 'namespaceToUse',
+  projectId: '[yourProjectID]',
+  referenceLng: 'en'
 });
 ```
 
@@ -70,6 +70,8 @@ locizeEditor.init({
   // enable on init without the need of adding querystring locize=true
   enabled: false,
   autoOpen: true, // if set to false you will need to open it via API
+
+  openDashboard: false, // open dashboard instead of the specified project
 
   // enable by adding querystring locize=true; can be set to another value or turned off by setting to false
   enableByQS: 'locize',
