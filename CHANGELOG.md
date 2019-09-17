@@ -1,3 +1,7 @@
+### 2.1.3
+
+- bind on open
+
 ### 2.1.2
 
 - alternative search for projectId

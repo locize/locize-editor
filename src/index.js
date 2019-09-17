@@ -56,13 +56,7 @@ const editor = {
         getQueryVariable(this.options.enableByQS) === 'true')
     ) {
       setTimeout(() => {
-        this.toggleUI = initUI(
-          this.on.bind(this),
-          this.off.bind(this),
-          this.options
-        );
         if (this.options.autoOpen) this.open();
-        this.on();
       }, 500);
     }
 
@@ -149,9 +143,21 @@ const editor = {
         this.i18next.options.backend.projectId}/v/${this.i18next.options.backend
         .version || 'latest'}`;
 
-    if (this.options.mode === 'iframe')
-      return (this.locizeInstance = appendIframe(url, this.options));
-    this.locizeInstance = window.open(url);
+    if (this.options.mode === 'iframe') {
+      this.locizeInstance = appendIframe(url, this.options);
+    } else {
+      this.locizeInstance = window.open(url);
+    }
+
+    // bind toggle UI
+    this.toggleUI = initUI(
+      this.on.bind(this),
+      this.off.bind(this),
+      this.options
+    );
+
+    // start listening
+    this.on();
   },
 
   on() {

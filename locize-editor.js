@@ -299,10 +299,7 @@
 
       if (this.options.enabled || this.options.enableByQS && getQueryVariable(this.options.enableByQS) === 'true') {
         setTimeout(function () {
-          _this.toggleUI = initUI(_this.on.bind(_this), _this.off.bind(_this), _this.options);
           if (_this.options.autoOpen) _this.open();
-
-          _this.on();
         }, 500);
       }
 
@@ -365,8 +362,17 @@
     open: function open() {
       var url = this.options.url;
       if (!this.options.openDashboard) url = "".concat(url, "/pid/").concat(this.options.projectId || this.i18next.options.backend.projectId, "/v/").concat(this.i18next.options.backend.version || 'latest');
-      if (this.options.mode === 'iframe') return this.locizeInstance = appendIframe(url, this.options);
-      this.locizeInstance = window.open(url);
+
+      if (this.options.mode === 'iframe') {
+        this.locizeInstance = appendIframe(url, this.options);
+      } else {
+        this.locizeInstance = window.open(url);
+      } // bind toggle UI
+
+
+      this.toggleUI = initUI(this.on.bind(this), this.off.bind(this), this.options); // start listening
+
+      this.on();
     },
     on: function on() {
       document.body.addEventListener('click', this.handler, true);
