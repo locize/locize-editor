@@ -145,8 +145,9 @@ const editor = {
     let url = this.options.url;
 
     if (!this.options.openDashboard)
-      url = `${url}/pid/${this.options.projectId || this.options.backend.projectId}/v/${this.i18next.options
-        .backend.version || 'latest'}`;
+      url = `${url}/pid/${this.options.projectId ||
+        this.i18next.options.backend.projectId}/v/${this.i18next.options.backend
+        .version || 'latest'}`;
 
     if (this.options.mode === 'iframe')
       return (this.locizeInstance = appendIframe(url, this.options));

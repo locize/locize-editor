@@ -364,7 +364,7 @@
     },
     open: function open() {
       var url = this.options.url;
-      if (!this.options.openDashboard) url = "".concat(url, "/pid/").concat(this.options.projectId || this.options.backend.projectId, "/v/").concat(this.i18next.options.backend.version || 'latest');
+      if (!this.options.openDashboard) url = "".concat(url, "/pid/").concat(this.options.projectId || this.i18next.options.backend.projectId, "/v/").concat(this.i18next.options.backend.version || 'latest');
       if (this.options.mode === 'iframe') return this.locizeInstance = appendIframe(url, this.options);
       this.locizeInstance = window.open(url);
     },
