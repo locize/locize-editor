@@ -1,3 +1,7 @@
+### 2.1.1
+
+- alternative search for projectId
+
 ### 2.1.0
 
 - open project specified instead of dashboard

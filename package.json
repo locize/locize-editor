@@ -1,6 +1,6 @@
 {
   "name": "locize-editor",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "editor plugin",
   "main": "./dist/cjs/locize-editor.js",
   "module": "./dist/esm/locize-editor.js",

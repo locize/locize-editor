@@ -145,7 +145,7 @@ const editor = {
     let url = this.options.url;
 
     if (!this.options.openDashboard)
-      url = `${url}/pid/${this.options.projectId}/v/${this.i18next.options
+      url = `${url}/pid/${this.options.projectId || this.options.backend.projectId}/v/${this.i18next.options
         .backend.version || 'latest'}`;
 
     if (this.options.mode === 'iframe')
