@@ -86,6 +86,9 @@ locizeEditor.init({
   // use lng in editor, eg. if running with lng=cimode (i18next, locize)
   lngOverride: null,
 
+  // expect keys to have namespace prepend (CIMODE): text clicked is in form ns:key
+  hasNamespacePrefixed: false,
+
   // default will open a iframe; setting to window will open a new window/tab instead
   mode: 'iframe' // 'window',
 
@@ -127,6 +130,26 @@ locizeEditor.init({
     });
   }
 });
+```
+
+### update the locize editor if your site sent new save missings
+
+the app will reload those namespaces
+
+```js
+locizeEditor.handleSavedMissing(lng, ns);
+
+// eg. on your i18next-locize-backend bind the onSaved on init
+i18next
+  .use(locizeEditor)
+  .use(locizeBackend)
+  .init({
+    //...
+    backend: {
+      //...
+      onSaved: locizeEditor.handleSavedMissing
+    }
+  });
 ```
 
 see the sample for react.js [i18next/react-i18next sample](https://github.com/i18next/react-i18next/blob/master/example/locize-example/src/i18n.js#L45)

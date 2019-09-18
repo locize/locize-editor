@@ -86,7 +86,7 @@ export function getClickedElement(e) {
 
 export function removeNamespace(str, i18next) {
   let res = str;
-  const nsSeparator = i18next.options.nsSeparator || ':';
+  const nsSeparator = i18next.options.nsSeparator !== undefined ?  i18next.options.nsSeparator : ':';
 
   if (str.indexOf(nsSeparator) > -1) {
     const p = str.split(nsSeparator);

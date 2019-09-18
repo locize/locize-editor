@@ -15,11 +15,12 @@ const defaultOptions = {
   toggleKeyModifier: 'ctrlKey',
   lngOverrideQS: 'useLng',
   lngOverride: null,
+  hasNamespacePrefixed: false,
   autoOpen: true,
   onEditorSaved: (lng, ns) => {},
   mode: getQueryVariable('locizeMode') || 'iframe',
   iframeContainerStyle:
-    'z-index: 2000; position: fixed; top: 0; right: 0; bottom: 0; width: 600px; box-shadow: -3px 0 5px 0 rgba(0,0,0,0.5);',
+    'z-index: 2147483647; position: fixed; top: 0; right: 0; bottom: 0; width: 600px; box-shadow: -3px 0 5px 0 rgba(0,0,0,0.5);',
   iframeStyle: 'height: 100%; width: 600px; border: none;',
   bodyStyle: 'margin-right: 605px;'
 };
@@ -49,6 +50,7 @@ const editor = {
     //this.locizeUrl = (i18next.options.editor && i18next.options.editor.url) || 'https://www.locize.io';
 
     this.handler = this.handler.bind(this);
+    this.handleSavedMissing = this.handleSavedMissing.bind(this);
 
     if (
       this.options.enabled ||
@@ -110,7 +112,7 @@ const editor = {
           this.options.lngOverride ||
           this.i18next.languages[0],
         ns: getElementNamespace(res, el, this.i18next),
-        token: removeNamespace(res, this.i18next)
+        token: hasNamespacePrefixed ? removeNamespace(res, this.i18next) : res
       };
       if (!payload.lng || payload.lng.toLowerCase() === 'cimode')
         payload.lng = this.i18next.options.backend.referenceLng;
@@ -133,6 +135,20 @@ const editor = {
     } else {
       send();
     }
+  },
+
+  handleSavedMissing(lng, ns) {
+    if (!this.locizeInstance || this.locizeInstance.closed) return;
+
+    const payload = {
+      message: 'savedMissings',
+      projectId: this.i18next.options.backend.projectId,
+      version: this.i18next.options.backend.version || 'latest',
+      lng,
+      ns
+    };
+
+    this.locizeInstance.postMessage(payload, this.options.url);
   },
 
   open() {

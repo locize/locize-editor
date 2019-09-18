@@ -1,3 +1,10 @@
+### 2.2.0
+
+- only default namespace separator to ':' if undefined in i18next.options -> do not split : away on text if not set so
+- add option hasNamespacePrefixed (default false) -> setting false will avoid splitting
+- extend iframe z-index to 2147483647 based on [stackoverflow](https://stackoverflow.com/questions/491052/minimum-and-maximum-value-of-z-index/25461690) the max
+- have a handler for handleSavedMissing(lng, ns)
+
 ### 2.1.3
 
 - bind on open

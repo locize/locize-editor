@@ -141,7 +141,7 @@
   }
   function removeNamespace(str, i18next) {
     var res = str;
-    var nsSeparator = i18next.options.nsSeparator || ':';
+    var nsSeparator = i18next.options.nsSeparator !== undefined ? i18next.options.nsSeparator : ':';
 
     if (str.indexOf(nsSeparator) > -1) {
       var p = str.split(nsSeparator);
@@ -264,10 +264,11 @@
     toggleKeyModifier: 'ctrlKey',
     lngOverrideQS: 'useLng',
     lngOverride: null,
+    hasNamespacePrefixed: false,
     autoOpen: true,
     onEditorSaved: function onEditorSaved(lng, ns) {},
     mode: getQueryVariable('locizeMode') || 'iframe',
-    iframeContainerStyle: 'z-index: 2000; position: fixed; top: 0; right: 0; bottom: 0; width: 600px; box-shadow: -3px 0 5px 0 rgba(0,0,0,0.5);',
+    iframeContainerStyle: 'z-index: 2147483647; position: fixed; top: 0; right: 0; bottom: 0; width: 600px; box-shadow: -3px 0 5px 0 rgba(0,0,0,0.5);',
     iframeStyle: 'height: 100%; width: 600px; border: none;',
     bodyStyle: 'margin-right: 605px;'
   };
@@ -296,6 +297,7 @@
       this.options = _objectSpread({}, defaultOptions, i18next.options.editor); //this.locizeUrl = (i18next.options.editor && i18next.options.editor.url) || 'https://www.locize.io';
 
       this.handler = this.handler.bind(this);
+      this.handleSavedMissing = this.handleSavedMissing.bind(this);
 
       if (this.options.enabled || this.options.enableByQS && getQueryVariable(this.options.enableByQS) === 'true') {
         setTimeout(function () {
@@ -339,7 +341,7 @@
           version: _this2.i18next.options.backend.version || 'latest',
           lng: getQueryVariable(_this2.options.lngOverrideQS) || _this2.options.lngOverride || _this2.i18next.languages[0],
           ns: getElementNamespace(res, el, _this2.i18next),
-          token: removeNamespace(res, _this2.i18next)
+          token: hasNamespacePrefixed ? removeNamespace(res, _this2.i18next) : res
         };
         if (!payload.lng || payload.lng.toLowerCase() === 'cimode') payload.lng = _this2.i18next.options.backend.referenceLng;
         if (_this2.options.handler) return _this2.options.handler(payload);
@@ -358,6 +360,17 @@
       } else {
         send();
       }
+    },
+    handleSavedMissing: function handleSavedMissing(lng, ns) {
+      if (!this.locizeInstance || this.locizeInstance.closed) return;
+      var payload = {
+        message: 'savedMissings',
+        projectId: this.i18next.options.backend.projectId,
+        version: this.i18next.options.backend.version || 'latest',
+        lng: lng,
+        ns: ns
+      };
+      this.locizeInstance.postMessage(payload, this.options.url);
     },
     open: function open() {
       var url = this.options.url;
