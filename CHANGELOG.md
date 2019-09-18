@@ -1,3 +1,7 @@
+### 2.2.1
+
+- fix hasNamespacePrefixed
+
 ### 2.2.0
 
 - only default namespace separator to ':' if undefined in i18next.options -> do not split : away on text if not set so

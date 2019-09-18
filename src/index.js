@@ -112,7 +112,7 @@ const editor = {
           this.options.lngOverride ||
           this.i18next.languages[0],
         ns: getElementNamespace(res, el, this.i18next),
-        token: hasNamespacePrefixed ? removeNamespace(res, this.i18next) : res
+        token: this.options.hasNamespacePrefixed ? removeNamespace(res, this.i18next) : res
       };
       if (!payload.lng || payload.lng.toLowerCase() === 'cimode')
         payload.lng = this.i18next.options.backend.referenceLng;

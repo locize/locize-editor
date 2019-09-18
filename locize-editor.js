@@ -341,7 +341,7 @@
           version: _this2.i18next.options.backend.version || 'latest',
           lng: getQueryVariable(_this2.options.lngOverrideQS) || _this2.options.lngOverride || _this2.i18next.languages[0],
           ns: getElementNamespace(res, el, _this2.i18next),
-          token: hasNamespacePrefixed ? removeNamespace(res, _this2.i18next) : res
+          token: _this2.options.hasNamespacePrefixed ? removeNamespace(res, _this2.i18next) : res
         };
         if (!payload.lng || payload.lng.toLowerCase() === 'cimode') payload.lng = _this2.i18next.options.backend.referenceLng;
         if (_this2.options.handler) return _this2.options.handler(payload);
