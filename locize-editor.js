@@ -208,7 +208,7 @@
   var baseBtn = 'font-family: "Helvetica", "Arial", sans-serif; font-size: 14px; color: #fff; border: none; font-weight: 300; height: 30px; line-height: 30px; padding: 0; text-align: center; min-width: 90px; text-decoration: none; text-transform: uppercase; text-overflow: ellipsis; white-space: nowrap; outline: none; cursor: pointer;';
   function initUI(on, off, options) {
     var cont = document.createElement("div");
-    cont.setAttribute('style', 'z-index: 2001; font-family: "Helvetica", "Arial", sans-serif; position: fixed; bottom: 20px; right: 20px; padding: 10px; background-color: #fff; border: solid 1px #1976d2; box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);');
+    cont.setAttribute('style', 'z-index: 2147483647; font-family: "Helvetica", "Arial", sans-serif; position: fixed; bottom: 20px; right: 20px; padding: 10px; background-color: #fff; border: solid 1px #1976d2; box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.5);');
     cont.setAttribute('ignorelocizeeditor', '');
     cont.setAttribute('translated', '');
     var title = document.createElement("h4");
@@ -268,7 +268,7 @@
     autoOpen: true,
     onEditorSaved: function onEditorSaved(lng, ns) {},
     mode: getQueryVariable('locizeMode') || 'iframe',
-    iframeContainerStyle: 'z-index: 2147483647; position: fixed; top: 0; right: 0; bottom: 0; width: 600px; box-shadow: -3px 0 5px 0 rgba(0,0,0,0.5);',
+    iframeContainerStyle: 'z-index: 2147480000; position: fixed; top: 0; right: 0; bottom: 0; width: 600px; box-shadow: -3px 0 5px 0 rgba(0,0,0,0.5);',
     iframeStyle: 'height: 100%; width: 600px; border: none;',
     bodyStyle: 'margin-right: 605px;'
   };

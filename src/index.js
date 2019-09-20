@@ -20,7 +20,7 @@ const defaultOptions = {
   onEditorSaved: (lng, ns) => {},
   mode: getQueryVariable('locizeMode') || 'iframe',
   iframeContainerStyle:
-    'z-index: 2147483647; position: fixed; top: 0; right: 0; bottom: 0; width: 600px; box-shadow: -3px 0 5px 0 rgba(0,0,0,0.5);',
+    'z-index: 2147480000; position: fixed; top: 0; right: 0; bottom: 0; width: 600px; box-shadow: -3px 0 5px 0 rgba(0,0,0,0.5);',
   iframeStyle: 'height: 100%; width: 600px; border: none;',
   bodyStyle: 'margin-right: 605px;'
 };
@@ -112,7 +112,9 @@ const editor = {
           this.options.lngOverride ||
           this.i18next.languages[0],
         ns: getElementNamespace(res, el, this.i18next),
-        token: this.options.hasNamespacePrefixed ? removeNamespace(res, this.i18next) : res
+        token: this.options.hasNamespacePrefixed
+          ? removeNamespace(res, this.i18next)
+          : res
       };
       if (!payload.lng || payload.lng.toLowerCase() === 'cimode')
         payload.lng = this.i18next.options.backend.referenceLng;

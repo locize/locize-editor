@@ -1,3 +1,7 @@
+### 2.2.2
+
+- z-index correction on the toggle UI
+
 ### 2.2.1
 
 - fix hasNamespacePrefixed
