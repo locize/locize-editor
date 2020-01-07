@@ -7,7 +7,7 @@ import {
 import { initUI, appendIframe } from './ui';
 
 const defaultOptions = {
-  url: 'https://www.locize.io',
+  url: 'https://www.locize.app',
   openDashboard: false,
   enabled: false,
   enableByQS: 'locize',
@@ -47,7 +47,7 @@ const editor = {
     this.enabled = false;
     this.i18next = i18next;
     this.options = { ...defaultOptions, ...i18next.options.editor };
-    //this.locizeUrl = (i18next.options.editor && i18next.options.editor.url) || 'https://www.locize.io';
+    //this.locizeUrl = (i18next.options.editor && i18next.options.editor.url) || 'https://www.locize.app';
 
     this.handler = this.handler.bind(this);
     this.handleSavedMissing = this.handleSavedMissing.bind(this);

@@ -30,9 +30,9 @@
           projectId: PROJECTID,
           apiKey: APIKEY,
           loadPath:
-            'https://api-dev.locize.io/{{projectId}}/latest/{{lng}}/{{ns}}',
+            'https://api-dev.locize.app/{{projectId}}/latest/{{lng}}/{{ns}}',
           addPath:
-            'https://api-dev.locize.io/missing/{{projectId}}/latest/{{lng}}/{{ns}}'
+            'https://api-dev.locize.app/missing/{{projectId}}/latest/{{lng}}/{{ns}}'
         })
         .load(NAMESPACE, (err, translations, detectedLng) => {
           // build message catalog format
@@ -60,7 +60,7 @@
             projectId: PROJECTID,
             enabled: true,
             enableByQS: true,
-            url: 'https://dev.locize.io', //'http://localhost:8080/editor' //
+            url: 'https://dev.locize.app', //'http://localhost:8080/editor' //
             onEditorSaved: function(lng, ns) {
               location.reload();
             }

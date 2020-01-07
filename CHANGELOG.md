@@ -1,3 +1,7 @@
+### 3.0.0
+
+- using the new `locize.app` domain replacing the deprecated `locize.io` domain
+
 ### 2.2.2
 
 - z-index correction on the toggle UI
