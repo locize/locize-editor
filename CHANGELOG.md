@@ -1,3 +1,7 @@
+### 3.0.1
+
+- auto-open editor on toggleUI
+
 ### 3.0.0
 
 - using the new `locize.app` domain replacing the deprecated `locize.io` domain

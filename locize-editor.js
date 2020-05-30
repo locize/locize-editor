@@ -389,11 +389,13 @@
     },
     on: function on() {
       document.body.addEventListener('click', this.handler, true);
+      if (!this.toggleUI) this.open();
       this.toggleUI(true);
       this.enabled = true;
     },
     off: function off() {
       document.body.removeEventListener('click', this.handler, true);
+      if (!this.toggleUI) this.open();
       this.toggleUI(false);
       this.enabled = false;
     }
