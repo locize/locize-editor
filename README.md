@@ -98,6 +98,7 @@ locizeEditor.init({
   bodyStyle: 'margin-right: 605px;',
 
   // handle when locize saved the edited translations, eg. reload website
+  // You may need to click first one of the text elements in your app first. (https://github.com/locize/locize-editor/issues/17)
   onEditorSaved: function(lng, ns) { location.reload(); }
 })
 
