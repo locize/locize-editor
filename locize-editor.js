@@ -191,6 +191,11 @@
     return namespace;
   }
   function getQueryVariable(variable) {
+    // dont check query on SSR render
+    if (typeof window === 'undefined') {
+      return false;
+    }
+
     var query = window.location.search.substring(1);
     var vars = query.split('&');
 
