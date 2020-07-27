@@ -1,3 +1,7 @@
+### 3.0.2
+
+- fix when using with SSR
+
 ### 3.0.1
 
 - auto-open editor on toggleUI
