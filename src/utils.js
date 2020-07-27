@@ -135,6 +135,9 @@ export function getElementNamespace(str, el, i18next) {
 
 export function getQueryVariable(variable)
 {
+   // dont check query on SSR render
+   if (typeof window === 'undefined') { return(false); }
+   
    const query = window.location.search.substring(1);
    const vars = query.split('&');
    for (var i = 0; i < vars.length; i++) {
