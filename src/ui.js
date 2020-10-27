@@ -38,6 +38,10 @@ export function initUI(on, off, options) {
 }
 
 export function appendIframe(url, options) {
+  if(options.appendTarget) {
+    options.iframeContainerStyle = 'position: absolute; top: 0; right: 0; bottom: 0; left: 0;';
+    options.iframeStyle += ' width: 100%;';
+  }
   const cont =  document.createElement("div");
   cont.setAttribute('style', options.iframeContainerStyle);
   cont.setAttribute('ignorelocizeeditor', '');
@@ -50,8 +54,12 @@ export function appendIframe(url, options) {
   iframe.setAttribute('src', url);
   cont.appendChild(iframe);
 
-  document.body.appendChild(cont);
-  const bodyStyle = document.body.getAttribute('style');
-  document.body.setAttribute('style', `${bodyStyle}; ${options.bodyStyle}`);
+  if(options.appendTarget) {
+    options.appendTarget.appendChild(cont);
+  } else {
+    document.body.appendChild(cont);
+    const bodyStyle = document.body.getAttribute('style');
+    document.body.setAttribute('style', "".concat(bodyStyle, "; ").concat(options.bodyStyle));
+  }
   return iframe.contentWindow;
 }

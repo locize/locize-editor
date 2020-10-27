@@ -99,7 +99,10 @@ locizeEditor.init({
 
   // handle when locize saved the edited translations, eg. reload website
   // You may need to click first one of the text elements in your app first. (https://github.com/locize/locize-editor/issues/17)
-  onEditorSaved: function(lng, ns) { location.reload(); }
+  onEditorSaved: function(lng, ns) { location.reload(); },
+  
+  // HTML Dom Node into which the InContext Editor iFrame should be appended to. Defaults to false, appending to the body.
+  appendTarget: document.querySelector('.example-div')
 })
 
 // i18next, ...

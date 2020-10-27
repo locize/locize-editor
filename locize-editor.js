@@ -244,6 +244,11 @@
     return toggle;
   }
   function appendIframe(url, options) {
+    if (options.appendTarget) {
+      options.iframeContainerStyle = 'position: absolute; top: 0; right: 0; bottom: 0; left: 0;';
+      options.iframeStyle += ' width: 100%;';
+    }
+
     var cont = document.createElement("div");
     cont.setAttribute('style', options.iframeContainerStyle);
     cont.setAttribute('ignorelocizeeditor', '');
@@ -254,13 +259,20 @@
     iframe.setAttribute('translated', '');
     iframe.setAttribute('src', url);
     cont.appendChild(iframe);
-    document.body.appendChild(cont);
-    var bodyStyle = document.body.getAttribute('style');
-    document.body.setAttribute('style', "".concat(bodyStyle, "; ").concat(options.bodyStyle));
+
+    if (options.appendTarget) {
+      options.appendTarget.appendChild(cont);
+    } else {
+      document.body.appendChild(cont);
+      var bodyStyle = document.body.getAttribute('style');
+      document.body.setAttribute('style', "".concat(bodyStyle, "; ").concat(options.bodyStyle));
+    }
+
     return iframe.contentWindow;
   }
 
   var defaultOptions = {
+    appendTarget: false,
     url: 'https://www.locize.app',
     openDashboard: false,
     enabled: false,

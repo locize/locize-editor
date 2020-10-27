@@ -7,6 +7,7 @@ import {
 import { initUI, appendIframe } from './ui';
 
 const defaultOptions = {
+  appendTarget: false,
   url: 'https://www.locize.app',
   openDashboard: false,
   enabled: false,
