@@ -90,7 +90,7 @@ locizeEditor.init({
   hasNamespacePrefixed: false,
 
   // default will open a iframe; setting to window will open a new window/tab instead
-  mode: 'iframe' // 'window',
+  mode: 'iframe', // 'window',
 
   // styles to adapt layout in iframe mode to your website layout
   iframeContainerStyle: 'z-index: 1000; position: fixed; top: 0; right: 0; bottom: 0; width: 600px; box-shadow: -3px 0 5px 0 rgba(0,0,0,0.5);',
@@ -99,7 +99,19 @@ locizeEditor.init({
 
   // handle when locize saved the edited translations, eg. reload website
   // You may need to click first one of the text elements in your app first. (https://github.com/locize/locize-editor/issues/17)
-  onEditorSaved: function(lng, ns) { location.reload(); }
+  onEditorSaved: function(lng, ns) { location.reload(); },
+  
+  // custom appendTarget and container classes for the InContext Editor
+  locizeEditorWindow: {
+    appendTarget: document.querySelector('.example-div'), // Element into which the editor window should be appended. Element should be set position: relative as the editor window itself will be set position: absolute;. defaults to false, appending to the body
+    containerClasses: 'custom-class second-custom-class' // defaults to false, resulting in no custom classes set
+  },
+  // custom appendTarget, container classes and title for the "locize editor" overlay with the button to toggle click selection of strings.
+  locizeEditorToggle: {
+    appendTarget: document.querySelector('.example-div'), // Element into which the toggle should be appended. Element should be set position: relative as the toggle itself will be set position: absolute;. defaults to false, appending to the body
+    containerClasses: 'custom-class second-custom-class', // defaults to false, resulting in no custom classes set
+    title: `Custom title` // defaults to false, resulting in the default title being displayed
+  }
 })
 
 // i18next, ...

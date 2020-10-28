@@ -6,6 +6,13 @@
     <script src="https://unpkg.com/vue-i18n/dist/vue-i18n.js"></script>
     <script src="https://unpkg.com/locizer/locizer.min.js"></script>
     <script src="/locize-editor.js"></script>
+    <style>
+      .example-div {
+        height: 640px;
+        position: relative;
+        width: 360px;
+      }
+    </style>
   </head>
 
   <body style="display: block;">
@@ -16,6 +23,11 @@
         <p>only if autoOpen: false</p>
         <button id="openEditor">open editor</button>
       </div>
+    </div>
+    <p>To append the iframe to the example-div instead of fixed to the body add</p>
+    <pre>appendTarget: documentQuerySelector('.example-div');</pre>
+    <p>to the init options</p>
+    <div class="example-div">
     </div>
     <script>
       var NAMESPACE = 'translations';
@@ -63,7 +75,16 @@
             url: 'https://dev.locize.app', //'http://localhost:8080/editor' //
             onEditorSaved: function(lng, ns) {
               location.reload();
-            }
+            },
+            // locizeEditorWindow: {
+            //  appendTarget: document.querySelector('.example-div'),
+            //   containerClasses: 'custom-class-window',
+            // },
+            // locizeEditorToggle: {
+            //   appendTarget: document.querySelector('.example-div'),
+            //   containerClasses: 'custom-class-toggle second-custom-class-toggle',
+            //   title: 'Custom Title'
+            // }
           });
 
           document

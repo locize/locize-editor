@@ -22,7 +22,16 @@ const defaultOptions = {
   iframeContainerStyle:
     'z-index: 2147480000; position: fixed; top: 0; right: 0; bottom: 0; width: 600px; box-shadow: -3px 0 5px 0 rgba(0,0,0,0.5);',
   iframeStyle: 'height: 100%; width: 600px; border: none;',
-  bodyStyle: 'margin-right: 605px;'
+  bodyStyle: 'margin-right: 605px;',
+  locizeEditorWindow: {
+    appendTarget: false,
+    containerClasses: false
+  },
+  locizeEditorToggle: {
+    appendTarget: false,
+    containerClasses: false,
+    title: false
+  }
 };
 
 function convertOptionsToI18next(opts) {
