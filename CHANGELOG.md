@@ -1,3 +1,7 @@
+### 3.1.0
+
+- Customizable placement of editor / toggle window [22](https://github.com/locize/locize-editor/pull/22)
+
 ### 3.0.2
 
 - fix when using with SSR

@@ -19,7 +19,7 @@
     "url": "git://github.com/locize/locize-editor.git"
   },
   "dependencies": {
-    "@babel/runtime": "^7.4.5"
+    "@babel/runtime": "^7.12.1"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
