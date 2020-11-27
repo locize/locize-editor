@@ -301,7 +301,7 @@
   }
 
   var defaultOptions = {
-    url: 'https://www.locize.app',
+    url: 'https://old.locize.app',
     openDashboard: false,
     enabled: false,
     enableByQS: 'locize',
@@ -348,7 +348,7 @@
       if (i18next && !i18next.init) i18next = convertOptionsToI18next(i18next);
       this.enabled = false;
       this.i18next = i18next;
-      this.options = _objectSpread({}, defaultOptions, i18next.options.editor); //this.locizeUrl = (i18next.options.editor && i18next.options.editor.url) || 'https://www.locize.app';
+      this.options = _objectSpread({}, defaultOptions, i18next.options.editor); //this.locizeUrl = (i18next.options.editor && i18next.options.editor.url) || 'https://old.locize.app';
 
       this.handler = this.handler.bind(this);
       this.handleSavedMissing = this.handleSavedMissing.bind(this);
