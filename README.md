@@ -1,3 +1,11 @@
+# ⚠️DEPRECATED⚠️
+
+**This library is used for the old locize UI. DO NOT USE IT ANYMORE!**
+
+[Check out this migration guide.](https://docs.locize.com/more/incontext-editor/migrating-from-the-old-incontext-editor)
+
+---
+
 [![Travis](https://img.shields.io/travis/locize/locize-editor/master.svg?style=flat-square)](https://travis-ci.org/locize/locize-editor)
 [![npm version](https://img.shields.io/npm/v/locize-editor.svg?style=flat-square)](https://www.npmjs.com/package/locize-editor)
 [![Bower](https://img.shields.io/bower/v/locize-editor.svg)]()
