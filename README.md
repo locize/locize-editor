@@ -6,10 +6,7 @@
 
 ---
 
-[![Travis](https://img.shields.io/travis/locize/locize-editor/master.svg?style=flat-square)](https://travis-ci.org/locize/locize-editor)
 [![npm version](https://img.shields.io/npm/v/locize-editor.svg?style=flat-square)](https://www.npmjs.com/package/locize-editor)
-[![Bower](https://img.shields.io/bower/v/locize-editor.svg)]()
-[![David](https://img.shields.io/david/locize/locize-editor.svg?style=flat-square)](https://david-dm.org/locize/locize-editor)
 
 # locize-editor
 
@@ -17,7 +14,7 @@ The locize-editor enables you to directly connect content from your website / ap
 
 Enabling the editor by querystring `?locize=true` you can click any text content on your website to open it on the right side editor window:
 
-![](http://docs.locize.com/assets/editor.png 'Screen of InContext Editor')
+![](https://cdn.prod.website-files.com/67a323e323a50df7f24f0a94/67adcc7057a22ffd9bae4e54_678e0d67f23748ba31eff98c_678e0b37ca80ab51a1d72d54_c-thumb-3.webp 'Screen of InContext Editor')
 
 The linking could be turned on/off using the button on the lower right or by pressing `ctrl-x`.
 
